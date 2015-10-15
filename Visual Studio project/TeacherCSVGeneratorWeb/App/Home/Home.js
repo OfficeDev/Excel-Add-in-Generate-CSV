@@ -111,7 +111,7 @@
 })();
 
 /* 
-Excel-Add-in-JS-CollegeCreditsTracker, https://github.com/OfficeDev/Excel-Add-in-JS-CollegeCreditsTracker
+Excel-Add-in-Generate-CSV, https://github.com/OfficeDev/Excel-Add-in-Generate-CSV
 
 Copyright (c) Microsoft Corporation
 
