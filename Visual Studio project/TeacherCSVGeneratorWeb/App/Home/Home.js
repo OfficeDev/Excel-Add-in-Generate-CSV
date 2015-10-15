@@ -18,7 +18,7 @@
 			$('#generate-template').click(generateTemplateRange);
 
 			$('#create-csv').button();
-			$('#create-csv').click(createCSVFile);
+			$('#create-csv').click(createCSVStream);
 		});
 	};
 
@@ -77,37 +77,29 @@
         table.style = "TableStyleLight21";
     }
  
-    function createCSVFile() {
-        //$('#resultText').text("Moodle chosen");
-
+    function createCSVStream() {
         Excel.run(function (ctx) {
-            //Get the table and the values in the rows
-            var tables = ctx.workbook.tables;
-            tables.load('items');
-            return ctx.sync().then(function () {
-                if (tables.count > 0) {
-                    for (var i = 0; i < tables.items.length; i++) {
-                        //do something
-                        tables.items[i].load("name");
-                        return ctx.sync().then(function () {
-                            var range = tables.items[i].getTotalRowRange();
-
-                        });
+            var range = ctx.workbook.worksheets.getActiveWorksheet().getUsedRange();
+            range.load("values");
+            return ctx.sync()
+                .then(function () {
+                    var CSVString = "";
+                    for (var i = 0; i < range.values.length; i++) {
+                        var value = range.values[i];
+                        console.log(value);
+                        for (var j = 0; j < value.length; j++) {
+                            console.log(value[j]);
+                            CSVString = CSVString + value[j] + ",";
+                        }
+                        CSVString = CSVString.substr(0, CSVString.length - 1);
+                        CSVString = CSVString + "\r\n";
                     }
-                }
-            });
-        }).catch(function (error) {
-            // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
-            app.showNotification("Error: " + error);
-            console.log("Error: " + error);
-            if (error instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(error.debugInfo));
-            }
+                    console.log(CSVString);
+                    app.showNotification(CSVString);
+                })
         });
     }
-	// Create the tracker in Excel
-	
-
+ 
 })();
 
 /* 
