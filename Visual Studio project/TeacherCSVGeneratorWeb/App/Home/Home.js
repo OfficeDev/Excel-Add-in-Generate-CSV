@@ -6,7 +6,6 @@
 (function () {
     "use strict";
 
-    var studentWorksheet;
     var sheetCopyNumber = 1;
 
 	// The initialize function must be run each time a new page is loaded
@@ -23,31 +22,31 @@
 	};
 
 	function generateTemplateRange() {
-	        // Run a batch operation against the Excel object model
-	        Excel.run(function (ctx) {
-	            // Run the queued-up commands, and return a promise to indicate task completion
-	            // Create a proxy object for the active worksheet
+	    // Run a batch operation against the Excel object model
+	    Excel.run(function (ctx) {
+	        // Run the queued-up commands, and return a promise to indicate task completion
+	        // Create a proxy object for the active worksheet
 
-	            var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
+	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
 
-                //Get user's service choice and build the cooresponding table
-	            if ($("input[type='radio']:checked").val() == "Moodle") {
-	                buildMoodleRange( studentRoster);
-                }
-	            else {
-	                buildTeacherKitRange(studentRoster);
-	            }
-	            sheetCopyNumber++;
+            //Get user's service choice and build the cooresponding table
+	        if ($("input[type='radio']:checked").val() == "Moodle") {
+	            buildMoodleRange( studentRoster);
+            }
+	        else {
+	            buildTeacherKitRange(studentRoster);
+	        }
+	        sheetCopyNumber++;
 
-	            return ctx.sync();
-	        }).catch(function (error) {
-	            // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
-	            app.showNotification("Error: " + error);
-	            console.log("Error: " + error);
-	            if (error instanceof OfficeExtension.Error) {
-	                console.log("Debug info: " + JSON.stringify(error.debugInfo));
-	            }
-	        });
+	        return ctx.sync();
+	    }).catch(function (error) {
+	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
+	        app.showNotification("Error: " + error);
+	        console.log("Error: " + error);
+	        if (error instanceof OfficeExtension.Error) {
+	            console.log("Debug info: " + JSON.stringify(error.debugInfo));
+	        }
+	    });
     }
 
     function buildMoodleRange( studentRoster) {
@@ -84,12 +83,21 @@
             return ctx.sync()
                 .then(function () {
                     var CSVString = "";
+
+                    //Iterate the rows in the range
                     for (var i = 0; i < range.values.length; i++) {
                         var value = range.values[i];
+
+                        //Iterate the cells in a row
                         for (var j = 0; j < value.length; j++) {
+                            //Append a value and comma
                             CSVString = CSVString + value[j] + ",";
                         }
+
+                        //strip the trailing ','
                         CSVString = CSVString.substr(0, CSVString.length - 1);
+
+                        //append CRLF
                         CSVString = CSVString + "\r\n";
                     }
                     app.showNotification(CSVString);
