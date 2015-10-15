@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<title>CSV Generator for Teachers</title>
+
+	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+	<link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
+	<script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
+
+	<!-- To enable offline debugging using a local reference to Office.js, use:                        -->
+	<!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+	<!-- <script src="../../Scripts/Office/1.1/office.js" type="text/javascript"></script>  -->
+
+
+	<script src="../App.js" type="text/javascript"></script>
+
+    <link href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css" rel="stylesheet" type="text/css" />
+
+	<link href="../App.css" rel="stylesheet" type="text/css" />
+	<link href="Home.css" rel="stylesheet" type="text/css" />
+	<script src="Home.js" type="text/javascript"></script>
+</head>
+<body>
+     <div id="content-header">
+        <div class="padding ms-bgColor-blue ms-font-xl ms-fontColor-white">
+            CSV Generator for Teachers
+        </div>
+    </div>
+    <div id="content-main" class="padding ms-font-xl ms-fontColor-themeDarker">
+        <div class="padding ms-font-m">
+            <p >Our CSV generator tool helps you import a class roster into Moodle or TeacherKit by providing a 
+			    worksheet table for adding your students. When you're ready, our generator makes a CSV (comma separated values) 
+			    file that you can save in your Office 365 OneDrive account and then import into Moodle or TeacherKit.</p>
+            <br />
+            <div class="ms-ChoiceFieldGroup" >
+                    <div class="ms-ChoiceFieldGroup-title">
+                    <label class="ms-Label is-required">Select your service</label>
+                    </div>
+                    <div class="ms-ChoiceField">
+                    <input id="moodle" class="ms-ChoiceField-input" type="radio" name="service" value="Moodle" checked="">
+                    <label for="moodle" class="ms-ChoiceField-field"><span class="ms-Label">Moodle</span></label>
+                    </div>
+                    <div class="ms-ChoiceField">
+                    <input id="teacherkit" class="ms-ChoiceField-input" type="radio" name="service" value="TeacherKit" checked="">
+                    <label for="teacherkit" class="ms-ChoiceField-field"><span class="ms-Label">TeacherKit</span></label>
+                    </div>
+
+            </div>
+
+            <br />
+            <button id="generate-template" class="ms-Button ms-Button--hero" just>
+                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--download"></i></span>
+                <span class="ms-Button-label">Generate template</span>
+            </button>
+                <br />
+            <p>Ready to create your CSV file?</p>
+            <button class="ms-Button ms-Button--hero" id="create-csv">
+                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--documentAdd"></i></span>
+                <span class="ms-Button-label">Create CSV</span>
+                <span class="ms-Button-description">Create the CSV file</span>
+            </button>
+            <br />
+            <br />
+            <div id="result">
+                <p id="resultText"> </p>
+            </div>
+        </div>
+        </div>
+</body>
+</html>
