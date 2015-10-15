@@ -86,15 +86,12 @@
                     var CSVString = "";
                     for (var i = 0; i < range.values.length; i++) {
                         var value = range.values[i];
-                        console.log(value);
                         for (var j = 0; j < value.length; j++) {
-                            console.log(value[j]);
                             CSVString = CSVString + value[j] + ",";
                         }
                         CSVString = CSVString.substr(0, CSVString.length - 1);
                         CSVString = CSVString + "\r\n";
                     }
-                    console.log(CSVString);
                     app.showNotification(CSVString);
                 })
         });
