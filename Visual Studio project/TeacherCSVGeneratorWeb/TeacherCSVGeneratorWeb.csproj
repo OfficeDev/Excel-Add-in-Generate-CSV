@@ -61,7 +61,6 @@
   <ItemGroup>
     <Content Include="Images\ExcelExport1.PNG" />
     <Content Include="Images\ExcelExport2.PNG" />
-    <Content Include="Scripts\server.js" />
     <Content Include="fonts\office365icons.eot" />
     <Content Include="fonts\office365icons.ttf" />
     <Content Include="fonts\office365icons.woff" />
