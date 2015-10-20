@@ -82,6 +82,7 @@
     <Content Include="Images\Close.png" />
     <Content Include="fonts\office365icons.svg" />
     <Content Include="Images\newWorksheet.PNG" />
+    <Content Include="Images\roster.PNG" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
