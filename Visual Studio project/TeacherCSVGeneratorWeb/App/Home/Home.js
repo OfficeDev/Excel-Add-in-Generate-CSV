@@ -59,7 +59,7 @@
         table.name = "moodelRosterTable_"+sheetCopyNumber;
 
         // Queue a command to get the newly added table
-        table.getHeaderRowRange().values = [["ACTION", "ROLE ", "USER ID NUMBER", "COURSE ID NUMBER"]];
+        table.getHeaderRowRange().values = [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]];
         table.style = "TableStyleLight20";
     }
 
@@ -104,7 +104,50 @@
                 })
         });
     }
- 
+    
+	
+	/********************/
+    /* Helper functions */
+    /********************/
+
+       // Helper for calls to the service. 
+    function httpGetAsync(theUrl, callback)
+    {
+        var request = new XMLHttpRequest();
+        request.open("GET", theUrl, true);
+        request.onreadystatechange = function() { 
+            if (request.readyState == 4 && request.status == 200)
+                callback(request.responseText);
+        }
+        request.send(null);
+    }
+	
+   // Helper that processes file names into an array. This is because the service returns
+    // the file names as ["filename1.docx","filename2.docx","filename3.docx"].
+    function processResponse(rawResponse) {
+        
+        // Remove quotes.
+        rawResponse = rawResponse.replace(/"/g, "");
+        
+        // Remove opening brackets.
+        rawResponse = rawResponse.replace("[", "");
+        
+        // Remove closing brackets.
+        rawResponse = rawResponse.replace("]", "");
+        
+        // Return an array of file names.
+        return rawResponse.split(',');
+    }
+    // Helper for calls to the service. 
+    function httpGetAsync(theUrl, callback) {
+        var request = new XMLHttpRequest();
+        request.open("GET", theUrl, true);
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200)
+                callback(request.responseText);
+        }
+        request.send(null);
+    }
 })();
 
 /* 
