@@ -18,9 +18,15 @@
 
 			$('#create-csv').button();
 			$('#create-csv').click(createCSVStream);
+			$('#show-help').click(showHelp);
 		});
 	};
 
+
+	function showHelp() {
+	    window.open("HelpPop.html");
+
+	}
 	function generateTemplateRange() {
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
