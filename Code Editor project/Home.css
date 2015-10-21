@@ -1,0 +1,12 @@
+﻿/* Page-specific styling */
+p {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+}
+
+.right {
+    position: absolute;
+    left: 35%;
+}
+
+
