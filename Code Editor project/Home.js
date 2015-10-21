@@ -24,7 +24,7 @@
 
 
 	function showHelp() {
-	    window.open("HelpPop.html");
+	    window.open("HelpPop.html","mywindow","menubar=1,resizable=1,width=550,height=650");
 
 	}
 	function generateTemplateRange() {
