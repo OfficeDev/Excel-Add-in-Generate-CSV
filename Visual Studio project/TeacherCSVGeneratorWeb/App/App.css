@@ -12,10 +12,10 @@
 #content-main {
     background: #fff;
     position: fixed;
-    top: 78px; /* Same value as #content-header's height */
+    top: 68px; /* Same value as #content-header's height */
     left: 2px;
     right: -2px;
-    bottom: 2px;
+    bottom: 12px;
     overflow: auto; /* Enable scrollbars within main content section */
 }
 

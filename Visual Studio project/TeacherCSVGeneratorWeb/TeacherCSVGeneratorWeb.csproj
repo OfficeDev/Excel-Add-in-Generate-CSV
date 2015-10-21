@@ -59,6 +59,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\Home\HelpPop.html" />
     <Content Include="Images\ExcelExport1.PNG" />
     <Content Include="Images\ExcelExport2.PNG" />
     <Content Include="fonts\office365icons.eot" />
@@ -81,6 +82,8 @@
     <Content Include="Content\Office.css" />
     <Content Include="Images\Close.png" />
     <Content Include="fonts\office365icons.svg" />
+    <Content Include="Images\newWorksheet.PNG" />
+    <Content Include="Images\roster.PNG" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
