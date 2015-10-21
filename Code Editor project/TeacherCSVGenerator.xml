@@ -1,14 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TaskPaneApp">
-  <Id>710b710a-fbde-4353-ac98-c87bf43f6936</Id>
+  <Id>4fd23088-32d4-4835-b28c-923207a22816</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Microsoft</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Teacher CSV class roster Generator Sample" />
   <Description DefaultValue="Teacher CSV class roster Generator Sample"/>
-  <Capabilities>
-    <Capability Name="Workbook" />
-  </Capabilities>
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+   <Requirements>
+    <Sets>
+    </Sets>
+  </Requirements>
   <DefaultSettings>
     <SourceLocation DefaultValue="\\JohnAustinWS12\johnau\TeacherCSVGenerator\Home.html" />
   </DefaultSettings>
