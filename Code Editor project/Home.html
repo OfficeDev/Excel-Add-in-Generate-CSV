@@ -5,27 +5,24 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	<title>CSV Generator for Teachers</title>
 
-	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
+	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-
-	<link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
+	<link href="Office.css" rel="stylesheet" type="text/css" />
 	<script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
 
 	<!-- To enable offline debugging using a local reference to Office.js, use:                        -->
 	<!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
 	<!-- <script src="../../Scripts/Office/1.1/office.js" type="text/javascript"></script>  -->
-
-
-	<script src="../App.js" type="text/javascript"></script>
+	<link href="App.css" rel="stylesheet" type="text/css" />
+	<script src="app.js" type="text/javascript"></script>
 
     <link href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.min.css" rel="stylesheet" type="text/css" />
     <link href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css" rel="stylesheet" type="text/css" />
 
-    <script src="../../Scripts/Jquery.Dropdown.js"></script>
-	<link href="../App.css" rel="stylesheet" type="text/css" />
+    <script src="./Scripts/Jquery.Dropdown.js"></script>
 	<link href="Home.css" rel="stylesheet" type="text/css" />
 	<script src="Home.js" type="text/javascript"></script>
 </head>
@@ -49,7 +46,7 @@
           </div>
             <br />
              <hr />
-                        <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Create class roster</p>
+              <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Create class roster</p>
             <p>The sample creates a table for your chosen management tool. Click the button to create the table. </p>
             <button id="generate-template" class="ms-Button ms-Button--hero" >
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--download"></i></span>
