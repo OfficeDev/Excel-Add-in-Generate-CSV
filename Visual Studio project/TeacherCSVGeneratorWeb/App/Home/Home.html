@@ -5,9 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	<title>CSV Generator for Teachers</title>
 
-	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js" type="text/javascript"></script>
+
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 
 	<link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
 	<script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
@@ -22,6 +24,7 @@
     <link href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.min.css" rel="stylesheet" type="text/css" />
     <link href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css" rel="stylesheet" type="text/css" />
 
+    <script src="../../Scripts/Jquery.Dropdown.js"></script>
 	<link href="../App.css" rel="stylesheet" type="text/css" />
 	<link href="Home.css" rel="stylesheet" type="text/css" />
 	<script src="Home.js" type="text/javascript"></script>
@@ -34,48 +37,44 @@
     </div>
     <div id="content-main" class="padding ms-font-xl ms-fontColor-themeDarker">
         <div class="padding ms-font-m">
-            <p >Our CSV generator tool helps you import a class roster into Moodle or TeacherKit by providing a 
-			    worksheet table for adding your students. When you're ready, our generator makes a CSV (comma separated values) 
-			    file that you can save in your Office 365 OneDrive account and then import into Moodle or TeacherKit.</p>
+            <p >Our Excel CSV export sample creates a CSV file that you can import as a class roster into a classroom management tool such as TeacherKit.</p>
             
-            <p class="ms-font-m ms-fontWeight-semibold">Select your service</p>
-            <div class="ms-ChoiceFieldGroup" >
-                    <div class="ms-ChoiceFieldGroup-title">
-                    
-                    </div>
-                    <div class="ms-ChoiceField">
-                    <input id="moodle" class="ms-ChoiceField-input" type="radio" name="service" value="Moodle" checked="">
-                    <label for="moodle" class="ms-ChoiceField-field"><span class="ms-Label">Moodle</span></label>
-                    </div>
-                    <div class="ms-ChoiceField">
-                    <input id="teacherkit" class="ms-ChoiceField-input" type="radio" name="service" value="TeacherKit" checked="">
-                    <label for="teacherkit" class="ms-ChoiceField-field"><span class="ms-Label">TeacherKit</span></label>
-                    </div>
-
-            </div>
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Select your classroom management tool</p>
+           <div class="ms-Dropdown" tabindex="0" style="width:160px">
+            <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--caretDown"></i>
+            <select class="ms-Dropdown-select"  id="selectService">
+              <option>Moodle</option>
+              <option>TeacherKit</option>
+            </select>
+          </div>
             <br />
-            <p class="ms-font-m ms-fontWeight-semibold">Create class roster</p>
+             <hr />
+                        <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Create class roster</p>
+            <p>The sample creates a table for your chosen management tool. Click the button to create the table. </p>
             <button id="generate-template" class="ms-Button ms-Button--hero" >
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--download"></i></span>
                 <span class="ms-Button-label">Make roster</span>
             </button>
-            <br /><br />
+            <br />
+            <p>When you've filled in your roster, export a CSV file to your computer and then import into the tool.</p>
              <hr />
-             
- 
-     
-            <img alt="" src="../../Images/roster.PNG" />
-            <br/>
+            <br />
             <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Ready to export your roster?</p>
+             <p>Excel exports your class roster as a .CSV file.  Click the help button to learn how.</p>
             <br />
             <button id="show-help" class="ms-Button ms-Button--hero" >
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--question"></i></span>
                 <span class="ms-Button-label">Excel Export help</span>
             </button>
             <br />
-            <p><a href="https://docs.moodle.org/29/en/Flat_file"> Learn about Moodle CSV files</a></p>
-            <p><a href="https://teacherkit.desk.com/customer/en/portal/topics/187420-data-/articles"> Learn about importing rosters into TeacherKit </a></p>
-  
+             <hr />
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">More information</p>
+            <ul>
+               <li><a href="https://docs.moodle.org/29/en/Flat_file"> Learn about Moodle CSV files</a></li>
+               <li><a href="https://teacherkit.desk.com/customer/en/portal/topics/187420-data-/articles"> Learn about importing rosters into TeacherKit </a></li>
+               <li><a href="https://github.com/OfficeDev/Office-UI-Fabric">Office Fabric on GitHub</a></li>
+               <li><a href="https://github.com/OfficeDev?utf8=%E2%9C%93&query=-Add-in">More Add-in samples on GitHub</a></li>
+            </ul> 
         </div>
      
        </div>

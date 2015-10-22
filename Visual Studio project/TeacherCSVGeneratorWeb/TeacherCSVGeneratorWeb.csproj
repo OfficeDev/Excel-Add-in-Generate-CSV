@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Home\HelpPop.html" />
+    <Content Include="Scripts\Jquery.Dropdown.js" />
     <Content Include="Images\ExcelExport1.PNG" />
     <Content Include="Images\ExcelExport2.PNG" />
     <Content Include="fonts\office365icons.eot" />
