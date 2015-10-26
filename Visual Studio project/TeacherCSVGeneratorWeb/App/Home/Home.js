@@ -48,34 +48,70 @@
 	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
 	        rosterName = selectedService + "Roster_" + sheetCopyNumber;
 
+	        var cellRangeAddress = "A1:A1";
+	        var cellRangeStart;
+	        var cellRangeEnd;
+	        var moodleHeaders = [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]];
+	        var teacherKitHeaders = [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]];
 
-	        /******************************************************/
-	        /* To add more columns to your roster table, add the column name 
-            /*  to the 3rd param of buildRosterRange.     
-            /*  The fillRoster method creates a row of "fake" student data 
-            /* with a column value for each column name given in the 
-            /* buildRoster method arguments. Be sure to add a case
-            /* statement in fillRoster for your new column header
-            /*
-            /* TODO: Replace array of column headers with a data structure
-            /* that contains column headers and default "fake" row values
-	        /******************************************************/
-	        if (selectedService == "Moodle") {
-	            buildRosterTable(studentRoster, [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
-            }
-	        else {
-	            buildRosterTable(studentRoster, [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]]);
-            }
 
-	        sheetCopyNumber++;
+	        return ctx.sync()
+                .then(function () {
 
-	        return ctx.sync().then(function () {
+                    /****************************************************
+                    / We need to build a range address string in the 
+                    / format RC:RC where the range starts at R1:C1
+                    / and ends at R2:C?? The end column depends on 
+                    / the number of header colums defined in the service header string
+                    /******************************************************/
+                    cellRangeStart = studentRoster.getCell(0, 0);
+                    if (selectedService == "Moodle") {
+                        cellRangeEnd = studentRoster.getCell(1, moodleHeaders[0].length-1);
+                    }
+                    else {
+                        cellRangeEnd = studentRoster.getCell(1, teacherKitHeaders[0].length-1);
+                    }
+                    cellRangeStart.load("address");
+                    cellRangeEnd.load("address");
 
-                //Fill the table created by the buildRosterRange function.
-	            fillRoster(rosterName);
+                })
+                .then(ctx.sync)
+                .then(function () {
 
-	            app.showNotification("Sheet created");
-	        });
+                       /****************************************************
+                        / Given the loaded cell addresses, concantinate the two addresses
+                        / into a range, subtracting out the sheet name
+                        /******************************************************/
+                  
+                        //Get address of the starting cell
+                        cellRangeAddress = cellRangeStart.address + ":";
+
+                        //split out the sheet name of the end of the range
+                        var addressArray = cellRangeEnd.address.split("!");
+
+                        //Append the address of the ending cell
+                        cellRangeAddress += addressArray[1];
+
+                        //split out the sheet name at the start of the range
+                        addressArray = cellRangeAddress.split("!");
+                        cellRangeAddress = addressArray[1];
+
+	                    if (selectedService == "Moodle") {
+	                        buildRosterTable(studentRoster, cellRangeAddress, moodleHeaders);
+	                    }
+	                    else {
+	                        buildRosterTable(studentRoster, cellRangeAddress, teacherKitHeaders);
+	                    }
+	                    sheetCopyNumber++;
+	             })
+                //Run the batched commands
+                .then(ctx.sync)
+                    .then(function () {
+                        //Fill the table created by the buildRosterRange function.
+                        fillRoster(rosterName);
+
+                        app.showNotification("Sheet created");
+                    });
 	    }).catch(function (error) {
 	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
 	        app.showNotification("Error: " + error);
@@ -98,7 +134,6 @@
 	        var worksheets = ctx.workbook.worksheets;
 	        var table;
 	        var headerRange;
-	        var cellRangeAddress = "A1:A1";
 
 
 	        // Queue a command to get the sheet with the name of the clicked button
@@ -107,15 +142,12 @@
             //add batch command to load the value of the worsheet.tables property
 	        clickedSheet.load("tables");
 	        //add batch command to load the value of the worsheet.tables property
-	        var cellRange = clickedSheet.getCell(1, 10);
-	        cellRange.load("address");
 
 
             //Run the batched commands
 	        return ctx.sync()
                 .then(function () {
 
-                    cellRangeAddress = cellRange.address;
 
 
                     //Get a table from the returned tables property value
@@ -195,45 +227,10 @@
     /*****************************************/
     /* Create the roster table in the active worksheet */
     /*****************************************/
-    function buildRosterTable( studentRoster, headerValues) {
+	function buildRosterTable(studentRoster, tableRangeString, headerValues) {
 
         // Create a proxy object for the active worksheet
         studentRoster.name = rosterName;
-
-
-        var tableRangeString = "A1:";
-        switch (headerValues[0].length) {
-            case 1:
-                tableRangeString += "A2";
-                break;
-            case 2:
-                tableRangeString += "B2";
-                break;
-            case 3:
-                tableRangeString += "C2";
-                break;
-            case 4:
-                tableRangeString += "D2";
-                break;
-            case 5:
-                tableRangeString += "E2";
-                break;
-            case 6:
-                tableRangeString += "F2";
-                break;
-            case 7:
-                tableRangeString += "G2";
-                break;
-            case 8:
-                tableRangeString += "H2";
-                break;
-            case 9:
-                tableRangeString += "I2";
-                break;
-            case 10:
-                tableRangeString += "J2";
-                break;
-        }
 
         // Queue a command to add a new table
         var table = studentRoster.tables.add(tableRangeString, true);
