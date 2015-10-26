@@ -14,7 +14,7 @@
 		$(document).ready(function (){
 			app.initialize();
 			$('#generate-template').button();
-			$('#generate-template').click(generateTemplateRange);
+			$('#generate-template').click(generateTemplateTable);
 			$('#show-help').click(showHelp);
 			$("#selectService").change(selectServiceHandler);
 			$(".ms-Dropdown").Dropdown();
@@ -39,7 +39,7 @@
     /*******************************************/
     /* Populate worksheet with students for chosen tool */
     /*******************************************/
-	function generateTemplateRange() {
+	function generateTemplateTable() {
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
 	        // Run the queued-up commands, and return a promise to indicate task completion
@@ -51,18 +51,27 @@
 
 	        /******************************************************/
 	        /* To add more columns to your roster table, add the column name 
-            /*  to the 3rd param of buildRosterRange.              
+            /*  to the 3rd param of buildRosterRange.     
+            /*  The fillRoster method creates a row of "fake" student data 
+            /* with a column value for each column name given in the 
+            /* buildRoster method arguments. Be sure to add a case
+            /* statement in fillRoster for your new column header
+            /*
+            /* TODO: Replace array of column headers with a data structure
+            /* that contains column headers and default "fake" row values
 	        /******************************************************/
 	        if (selectedService == "Moodle") {
-	            buildRosterRange(studentRoster, [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
+	            buildRosterTable(studentRoster, [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
             }
 	        else {
-	            buildRosterRange(studentRoster, [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]]);
+	            buildRosterTable(studentRoster, [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]]);
             }
 
 	        sheetCopyNumber++;
 
 	        return ctx.sync().then(function () {
+
+                //Fill the table created by the buildRosterRange function.
 	            fillRoster(rosterName);
 	            app.showNotification("Sheet created");
 	        });
@@ -176,7 +185,7 @@
     /*****************************************/
     /* Create the roster table in the active worksheet */
     /*****************************************/
-    function buildRosterRange( studentRoster, headerValues) {
+    function buildRosterTable( studentRoster, headerValues) {
 
         // Create a proxy object for the active worksheet
         studentRoster.name = rosterName;
