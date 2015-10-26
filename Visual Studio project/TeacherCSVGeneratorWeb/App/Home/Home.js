@@ -15,14 +15,16 @@
 			app.initialize();
 			$('#generate-template').button();
 			$('#generate-template').click(generateTemplateRange);
-			$('#create-csv').button();
-			$('#create-csv').click(createCSVStream);
 			$('#show-help').click(showHelp);
 			$("#selectService").change(selectServiceHandler);
 			$(".ms-Dropdown").Dropdown();
 		});
 	};
 
+    /*******************************************/
+    /* Change handler for service dropdown. Get the selected */
+    /*  service value                                                            */
+    /*******************************************/
 	function selectServiceHandler() {
 	    selectedService =$(this).val();
 	}
@@ -45,6 +47,15 @@
 
 	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
 	        rosterName = selectedService + "Roster_" + sheetCopyNumber;
+
+
+	        /******************************************************/
+	        /* To add more columns to your roster table, add the column name 
+            /*  to the 3rd param of buildRosterRange and increase the width of 
+            /*  the cell range in the 2nd parameter                 
+            /*  The number of columns in 2nd param. must match the number
+            /*  of column names in the 3rd param.
+	        /******************************************************/
 	        if (selectedService == "Moodle") {
 	            buildRosterRange(studentRoster, 'A1:D2',[["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
             }
@@ -83,65 +94,75 @@
 
 	        // Queue a command to get the sheet with the name of the clicked button
 	        var clickedSheet = worksheets.getItem(rosterName);
+
+            //add batch command to load the value of the worsheet.tables property
 	        clickedSheet.load("tables");
+
+            //Run the batched commands
 	        return ctx.sync()
                 .then(function () {
+
+                    //Get a table from the returned tables property value
                     table = clickedSheet.tables.getItemAt(0);
+
+                    //add batch command to load the value of the table rows collection property
                     table.load("rows");
                 })
-                .then(ctx.sync)
-                .then(function () {
-                    headerRange = table.getHeaderRowRange();
-                    headerRange.load("values")
-                })
-                .then(ctx.sync)
-                .then(function () {
-                    var headers = headerRange.values;
-                    for (var i = 0; i < headers.length; i++) {
-                        var value = headers[i];
-                        for (var j = 0; j < value.length; j++) {
-                            if (value[j] == "FIRST NAME") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 0).values = "Adam";
-                            }
-                            if (value[j] == "LAST NAME") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 1).values = "Dunsmuir";
-                            }
-                            if (value[j] == "EMAIL") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 2).values = "adamd@patsoldemo6.com";
-                            }
-                            if (value[j] == "PARENTEMAIL") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 3).values = "parent@patsoldemo6.com";
-                            }
-                            if (value[j] == "PARENTPHONE") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 4).values = "555 111-2222";
-                            }
-                            if (value[j] == "ACTION") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 0).values = "add";
-                            }
-                            if (value[j] == "ROLE") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 1).values = "student";
-                            }
-                            if (value[j] == "USER ID NUMBER") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 2).values = "123a";
-                            }
-                            if (value[j] == "COURSE ID NUMBER") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 3).values = "econ 101";
-                            }
-                        }
-                    }
-                    // Queue a command to activate the clicked sheet
-                    clickedSheet.activate();
+                    //Run the batched commands
+                    .then(ctx.sync)
+                        .then(function () {
 
-                })
+                            //Get the range of the loaded table header row
+                            headerRange = table.getHeaderRowRange();
+
+                            //Add a command to load the values of the header range
+                            headerRange.load("values")
+                        })
+
+                        //Run the batched commands
+                        .then(ctx.sync)
+                            .then(function () {
+
+                                //loop through the loaded header range values
+                                var headers = headerRange.values;
+                                for (var i = 0; i < headers.length; i++) {
+                                    var value = headers[i];
+                                    for (var j = 0; j < value.length; j++) {
+
+                                        switch (value[j]) {
+                                            case "FIRST NAME":
+                                                clickedSheet.getCell(1, j).values = "Alex";
+                                                break;
+                                            case "LAST NAME":
+                                                clickedSheet.getCell(1, j).values = "Dunsmuir";
+                                                break;
+                                            case "EMAIL":
+                                                clickedSheet.getCell(1, j).values = "adamd@patsoldemo6.com";
+                                                break;
+                                            case "PARENTEMAIL":
+                                                clickedSheet.getCell(1, j).values = "parent@patsoldemo6.com";
+                                                break;
+                                            case "PARENTPHONE":
+                                                clickedSheet.getCell(1, j).values = "555 111-2222";
+                                                break;
+                                            case "ACTION":
+                                                clickedSheet.getCell(1, j).values = "add";
+                                                break;
+                                            case "ROLE":
+                                                clickedSheet.getCell(1, j).values = "student";
+                                                break;
+                                            case "USER ID NUMBER":
+                                                clickedSheet.getCell(1, j).values = "123a";
+                                                break;
+                                            case "COURSE ID NUMBER":
+                                                clickedSheet.getCell(1, j).values = "econ 101";
+                                                break;
+                                        }
+                                    }
+                                }
+                                // Queue a command to activate the clicked sheet
+                                clickedSheet.activate();
+                        })
 	        //Run the queued-up commands, and return a promise to indicate task completion
 	        return ctx.sync();
 	    })
