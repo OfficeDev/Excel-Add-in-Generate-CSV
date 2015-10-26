@@ -73,6 +73,7 @@
 
                 //Fill the table created by the buildRosterRange function.
 	            fillRoster(rosterName);
+
 	            app.showNotification("Sheet created");
 	        });
 	    }).catch(function (error) {
@@ -97,16 +98,25 @@
 	        var worksheets = ctx.workbook.worksheets;
 	        var table;
 	        var headerRange;
+	        var cellRangeAddress = "A1:A1";
+
 
 	        // Queue a command to get the sheet with the name of the clicked button
 	        var clickedSheet = worksheets.getItem(rosterName);
 
             //add batch command to load the value of the worsheet.tables property
 	        clickedSheet.load("tables");
+	        //add batch command to load the value of the worsheet.tables property
+	        var cellRange = clickedSheet.getCell(1, 10);
+	        cellRange.load("address");
+
 
             //Run the batched commands
 	        return ctx.sync()
                 .then(function () {
+
+                    cellRangeAddress = cellRange.address;
+
 
                     //Get a table from the returned tables property value
                     table = clickedSheet.tables.getItemAt(0);
@@ -189,6 +199,7 @@
 
         // Create a proxy object for the active worksheet
         studentRoster.name = rosterName;
+
 
         var tableRangeString = "A1:";
         switch (headerValues[0].length) {
