@@ -51,16 +51,13 @@
 
 	        /******************************************************/
 	        /* To add more columns to your roster table, add the column name 
-            /*  to the 3rd param of buildRosterRange and increase the width of 
-            /*  the cell range in the 2nd parameter                 
-            /*  The number of columns in 2nd param. must match the number
-            /*  of column names in the 3rd param.
+            /*  to the 3rd param of buildRosterRange.              
 	        /******************************************************/
 	        if (selectedService == "Moodle") {
-	            buildRosterRange(studentRoster, 'A1:D2',[["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
+	            buildRosterRange(studentRoster, [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
             }
 	        else {
-	            buildRosterRange(studentRoster, 'A1:E2', [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]]);
+	            buildRosterRange(studentRoster, [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]]);
             }
 
 	        sheetCopyNumber++;
@@ -179,13 +176,47 @@
     /*****************************************/
     /* Create the roster table in the active worksheet */
     /*****************************************/
-    function buildRosterRange( studentRoster, tableRange, headerValues) {
+    function buildRosterRange( studentRoster, headerValues) {
 
         // Create a proxy object for the active worksheet
         studentRoster.name = rosterName;
 
+        var tableRangeString = "A1:";
+        switch (headerValues[0].length) {
+            case 1:
+                tableRangeString += "A2";
+                break;
+            case 2:
+                tableRangeString += "B2";
+                break;
+            case 3:
+                tableRangeString += "C2";
+                break;
+            case 4:
+                tableRangeString += "D2";
+                break;
+            case 5:
+                tableRangeString += "E2";
+                break;
+            case 6:
+                tableRangeString += "F2";
+                break;
+            case 7:
+                tableRangeString += "G2";
+                break;
+            case 8:
+                tableRangeString += "H2";
+                break;
+            case 9:
+                tableRangeString += "I2";
+                break;
+            case 10:
+                tableRangeString += "J2";
+                break;
+        }
+
         // Queue a command to add a new table
-        var table = studentRoster.tables.add(tableRange, true);
+        var table = studentRoster.tables.add(tableRangeString, true);
         table.name = rosterName;
 
         // Queue a command to get the newly added table
