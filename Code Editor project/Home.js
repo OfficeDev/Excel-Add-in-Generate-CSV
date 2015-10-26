@@ -14,15 +14,17 @@
 		$(document).ready(function (){
 			app.initialize();
 			$('#generate-template').button();
-			$('#generate-template').click(generateTemplateRange);
-			$('#create-csv').button();
-			$('#create-csv').click(createCSVStream);
+			$('#generate-template').click(generateTemplateTable);
 			$('#show-help').click(showHelp);
 			$("#selectService").change(selectServiceHandler);
 			$(".ms-Dropdown").Dropdown();
 		});
 	};
 
+    /*******************************************/
+    /* Change handler for service dropdown. Get the selected */
+    /*  service value                                                            */
+    /*******************************************/
 	function selectServiceHandler() {
 	    selectedService =$(this).val();
 	}
@@ -37,7 +39,7 @@
     /*******************************************/
     /* Populate worksheet with students for chosen tool */
     /*******************************************/
-	function generateTemplateRange() {
+	function generateTemplateTable() {
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
 	        // Run the queued-up commands, and return a promise to indicate task completion
@@ -45,19 +47,75 @@
 
 	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
 	        rosterName = selectedService + "Roster_" + sheetCopyNumber;
-	        if (selectedService == "Moodle") {
-	            buildRosterRange(studentRoster, 'A1:D2',[["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]]);
-            }
-	        else {
-	            buildRosterRange(studentRoster, 'A1:E2', [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]]);
-            }
 
-	        sheetCopyNumber++;
+	        var cellRangeAddress = "A1:A1";
+	        var cellRangeStart;
+	        var cellRangeEnd;
+	        var moodleHeaders = [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]];
+	        var moodleDefaults = ["add", "student", "usr-1", "econ 101"];
+	        var teacherKitHeaders = [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]];
+	        var teacherKitDefaults = ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"];
+	        var defaultTableValues;
 
-	        return ctx.sync().then(function () {
-	            fillRoster(rosterName);
-	            app.showNotification("Sheet created");
-	        });
+
+	        return ctx.sync()
+                .then(function () {
+
+                    /****************************************************
+                    / We need to build a range address string in the 
+                    / format RC:RC where the range starts at R1:C1
+                    / and ends at R2:C?? The end column depends on 
+                    / the number of header colums defined in the service header string
+                    /******************************************************/
+                    cellRangeStart = studentRoster.getCell(0, 0);
+                    if (selectedService == "Moodle") {
+                        cellRangeEnd = studentRoster.getCell(1, moodleHeaders[0].length - 1);
+                        defaultTableValues = moodleDefaults;
+                    }
+                    else {
+                        cellRangeEnd = studentRoster.getCell(1, teacherKitHeaders[0].length-1);
+                        defaultTableValues = teacherKitDefaults;
+                    }
+                    cellRangeStart.load("address");
+                    cellRangeEnd.load("address");
+
+                })
+                .then(ctx.sync)
+                .then(function () {
+
+                       /****************************************************
+                        / Given the loaded cell addresses, concantinate the two addresses
+                        / into a range, subtracting out the sheet name
+                        /******************************************************/
+                  
+                        //Get address of the starting cell
+                        cellRangeAddress = cellRangeStart.address + ":";
+
+                        //split out the sheet name of the end of the range
+                        var addressArray = cellRangeEnd.address.split("!");
+
+                        //Append the address of the ending cell
+                        cellRangeAddress += addressArray[1];
+
+                        //split out the sheet name at the start of the range
+                        addressArray = cellRangeAddress.split("!");
+                        cellRangeAddress = addressArray[1];
+
+	                    if (selectedService == "Moodle") {
+	                        buildRosterTable(studentRoster, cellRangeAddress, moodleHeaders);
+	                    }
+	                    else {
+	                        buildRosterTable(studentRoster, cellRangeAddress, teacherKitHeaders);
+	                    }
+	                    sheetCopyNumber++;
+	             })
+                //Run the batched commands
+                .then(ctx.sync)
+                    .then(function () {
+                        //Fill the table created by the buildRosterRange function.
+                        fillRoster(rosterName, defaultTableValues);
+                        app.showNotification("Sheet created");
+                    });
 	    }).catch(function (error) {
 	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
 	        app.showNotification("Error: " + error);
@@ -72,7 +130,7 @@
     /*****************************************/
     /* Fill the roster table with fake student data        */
     /*****************************************/
-	function fillRoster(rosterName) {
+	function fillRoster(rosterName, defaultValues) {
 
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
@@ -83,65 +141,46 @@
 
 	        // Queue a command to get the sheet with the name of the clicked button
 	        var clickedSheet = worksheets.getItem(rosterName);
+
+            //add batch command to load the value of the worsheet.tables property
 	        clickedSheet.load("tables");
+	        //add batch command to load the value of the worsheet.tables property
+
+            //Run the batched commands
 	        return ctx.sync()
                 .then(function () {
+                    //Get a table from the returned tables property value
                     table = clickedSheet.tables.getItemAt(0);
+
+                    //add batch command to load the value of the table rows collection property
                     table.load("rows");
                 })
-                .then(ctx.sync)
-                .then(function () {
-                    headerRange = table.getHeaderRowRange();
-                    headerRange.load("values")
-                })
-                .then(ctx.sync)
-                .then(function () {
-                    var headers = headerRange.values;
-                    for (var i = 0; i < headers.length; i++) {
-                        var value = headers[i];
-                        for (var j = 0; j < value.length; j++) {
-                            if (value[j] == "FIRST NAME") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 0).values = "Adam";
-                            }
-                            if (value[j] == "LAST NAME") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 1).values = "Dunsmuir";
-                            }
-                            if (value[j] == "EMAIL") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 2).values = "adamd@patsoldemo6.com";
-                            }
-                            if (value[j] == "PARENTEMAIL") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 3).values = "parent@patsoldemo6.com";
-                            }
-                            if (value[j] == "PARENTPHONE") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 4).values = "555 111-2222";
-                            }
-                            if (value[j] == "ACTION") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 0).values = "add";
-                            }
-                            if (value[j] == "ROLE") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 1).values = "student";
-                            }
-                            if (value[j] == "USER ID NUMBER") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 2).values = "123a";
-                            }
-                            if (value[j] == "COURSE ID NUMBER") {
-                                // Queue a command to insert the sheet name into a cell for easy viewing
-                                clickedSheet.getCell(1, 3).values = "econ 101";
-                            }
-                        }
-                    }
-                    // Queue a command to activate the clicked sheet
-                    clickedSheet.activate();
+                    //Run the batched commands
+                    .then(ctx.sync)
+                        .then(function () {
 
-                })
+                            //Get the range of the loaded table header row
+                            headerRange = table.getHeaderRowRange();
+
+                            //Add a command to load the values of the header range
+                            headerRange.load("values")
+                        })
+
+                        //Run the batched commands
+                        .then(ctx.sync)
+                            .then(function () {
+
+                                //loop through the loaded header range values
+                                var headers = headerRange.values;
+                                for (var i = 0; i < headers.length; i++) {
+                                    var value = headers[i];
+                                    for (var j = 0; j < value.length; j++) {
+                                        clickedSheet.getCell(1, j).values = defaultValues[j];
+                                    }
+                                }
+                                // Queue a command to activate the clicked sheet
+                                clickedSheet.activate();
+                        })
 	        //Run the queued-up commands, and return a promise to indicate task completion
 	        return ctx.sync();
 	    })
@@ -158,13 +197,13 @@
     /*****************************************/
     /* Create the roster table in the active worksheet */
     /*****************************************/
-    function buildRosterRange( studentRoster, tableRange, headerValues) {
+	function buildRosterTable(studentRoster, tableRangeString, headerValues) {
 
         // Create a proxy object for the active worksheet
         studentRoster.name = rosterName;
 
         // Queue a command to add a new table
-        var table = studentRoster.tables.add(tableRange, true);
+        var table = studentRoster.tables.add(tableRangeString, true);
         table.name = rosterName;
 
         // Queue a command to get the newly added table
