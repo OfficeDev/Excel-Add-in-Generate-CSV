@@ -52,7 +52,10 @@
 	        var cellRangeStart;
 	        var cellRangeEnd;
 	        var moodleHeaders = [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]];
+	        var moodleDefaults = ["add", "student", "usr-1", "econ 101"];
 	        var teacherKitHeaders = [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]];
+	        var teacherKitDefaults = ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"];
+	        var defaultTableValues;
 
 
 	        return ctx.sync()
@@ -66,10 +69,12 @@
                     /******************************************************/
                     cellRangeStart = studentRoster.getCell(0, 0);
                     if (selectedService == "Moodle") {
-                        cellRangeEnd = studentRoster.getCell(1, moodleHeaders[0].length-1);
+                        cellRangeEnd = studentRoster.getCell(1, moodleHeaders[0].length - 1);
+                        defaultTableValues = moodleDefaults;
                     }
                     else {
                         cellRangeEnd = studentRoster.getCell(1, teacherKitHeaders[0].length-1);
+                        defaultTableValues = teacherKitDefaults;
                     }
                     cellRangeStart.load("address");
                     cellRangeEnd.load("address");
@@ -108,8 +113,7 @@
                 .then(ctx.sync)
                     .then(function () {
                         //Fill the table created by the buildRosterRange function.
-                        fillRoster(rosterName);
-
+                        fillRoster(rosterName, defaultTableValues);
                         app.showNotification("Sheet created");
                     });
 	    }).catch(function (error) {
@@ -126,7 +130,7 @@
     /*****************************************/
     /* Fill the roster table with fake student data        */
     /*****************************************/
-	function fillRoster(rosterName) {
+	function fillRoster(rosterName, defaultValues) {
 
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
@@ -135,7 +139,6 @@
 	        var table;
 	        var headerRange;
 
-
 	        // Queue a command to get the sheet with the name of the clicked button
 	        var clickedSheet = worksheets.getItem(rosterName);
 
@@ -143,13 +146,9 @@
 	        clickedSheet.load("tables");
 	        //add batch command to load the value of the worsheet.tables property
 
-
             //Run the batched commands
 	        return ctx.sync()
                 .then(function () {
-
-
-
                     //Get a table from the returned tables property value
                     table = clickedSheet.tables.getItemAt(0);
 
@@ -176,36 +175,7 @@
                                 for (var i = 0; i < headers.length; i++) {
                                     var value = headers[i];
                                     for (var j = 0; j < value.length; j++) {
-
-                                        switch (value[j]) {
-                                            case "FIRST NAME":
-                                                clickedSheet.getCell(1, j).values = "Alex";
-                                                break;
-                                            case "LAST NAME":
-                                                clickedSheet.getCell(1, j).values = "Dunsmuir";
-                                                break;
-                                            case "EMAIL":
-                                                clickedSheet.getCell(1, j).values = "adamd@patsoldemo6.com";
-                                                break;
-                                            case "PARENTEMAIL":
-                                                clickedSheet.getCell(1, j).values = "parent@patsoldemo6.com";
-                                                break;
-                                            case "PARENTPHONE":
-                                                clickedSheet.getCell(1, j).values = "555 111-2222";
-                                                break;
-                                            case "ACTION":
-                                                clickedSheet.getCell(1, j).values = "add";
-                                                break;
-                                            case "ROLE":
-                                                clickedSheet.getCell(1, j).values = "student";
-                                                break;
-                                            case "USER ID NUMBER":
-                                                clickedSheet.getCell(1, j).values = "123a";
-                                                break;
-                                            case "COURSE ID NUMBER":
-                                                clickedSheet.getCell(1, j).values = "econ 101";
-                                                break;
-                                        }
+                                        clickedSheet.getCell(1, j).values = defaultValues[j];
                                     }
                                 }
                                 // Queue a command to activate the clicked sheet
