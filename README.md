@@ -4,7 +4,7 @@ _Applies to: Excel 2016_
 
 This task pane add-in shows how to create table from list of column names using the JavaScript APIs in Excel 2016. It comes in two flavors: code editor and Visual Studio.
 
-![CSV Generator Sample](images/ScreenCap1.PNG)
+![CSV Generator Sample](Images/ScreenCap1.PNG)
 
 ## Try it out
 ### Code editor version
