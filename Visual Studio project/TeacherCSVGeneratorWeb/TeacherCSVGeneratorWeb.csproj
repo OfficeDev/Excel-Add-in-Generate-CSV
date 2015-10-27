@@ -67,6 +67,10 @@
     <Content Include="fonts\office365icons.woff" />
     <None Include=".bin\node.cmd" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Images\ScreenCap1.PNG" />
+    <Content Include="Images\ScreenCap2.PNG" />
+    <Content Include="Images\ScreenCap3.PNG" />
+    <Content Include="Images\ScreenCap4.PNG" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
