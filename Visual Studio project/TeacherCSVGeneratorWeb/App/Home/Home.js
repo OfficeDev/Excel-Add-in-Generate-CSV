@@ -14,7 +14,7 @@
 		$(document).ready(function (){
 			app.initialize();
 			$('#generate-template').button();
-			$('#generate-template').click(generateTemplateTable);
+			$('#generate-template').click(generate_templateClickHandler);
 			$('#show-help').click(showHelp);
 			$("#selectService").change(selectServiceHandler);
 			$(".ms-Dropdown").Dropdown();
@@ -29,6 +29,21 @@
 	    selectedService =$(this).val();
 	}
 
+	function generate_templateClickHandler() {
+	    switch (selectedService)
+	    {
+	        case "Moodle":
+	            generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]], ["add", "student", "usr-1", "econ 101"])
+	            break;
+	        case "TeacherKit":
+	            generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
+	            break;
+	        case "MyClassroom":
+	            generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], ["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
+	            break;
+	    }
+	}
+
     /*******************************************/
     /* Open a pop-up window with the steps to export a csv */
     /*******************************************/
@@ -39,7 +54,7 @@
     /*******************************************/
     /* Populate worksheet with students for chosen tool */
     /*******************************************/
-	function generateTemplateTable() {
+	function generateTemplateTable(headerString, defaultTableValues) {
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
 	        // Run the queued-up commands, and return a promise to indicate task completion
@@ -51,11 +66,6 @@
 	        var cellRangeAddress = "A1:A1";
 	        var cellRangeStart;
 	        var cellRangeEnd;
-	        var moodleHeaders = [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]];
-	        var moodleDefaults = ["add", "student", "usr-1", "econ 101"];
-	        var teacherKitHeaders = [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]];
-	        var teacherKitDefaults = ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"];
-	        var defaultTableValues;
 
 
 	        return ctx.sync()
@@ -68,14 +78,7 @@
                     / the number of header colums defined in the service header string
                     /******************************************************/
                     cellRangeStart = studentRoster.getCell(0, 0);
-                    if (selectedService == "Moodle") {
-                        cellRangeEnd = studentRoster.getCell(1, moodleHeaders[0].length - 1);
-                        defaultTableValues = moodleDefaults;
-                    }
-                    else {
-                        cellRangeEnd = studentRoster.getCell(1, teacherKitHeaders[0].length-1);
-                        defaultTableValues = teacherKitDefaults;
-                    }
+                    cellRangeEnd = studentRoster.getCell(1, headerString[0].length - 1);
                     cellRangeStart.load("address");
                     cellRangeEnd.load("address");
 
@@ -101,12 +104,7 @@
                         addressArray = cellRangeAddress.split("!");
                         cellRangeAddress = addressArray[1];
 
-	                    if (selectedService == "Moodle") {
-	                        buildRosterTable(studentRoster, cellRangeAddress, moodleHeaders);
-	                    }
-	                    else {
-	                        buildRosterTable(studentRoster, cellRangeAddress, teacherKitHeaders);
-	                    }
+	                    buildRosterTable(studentRoster, cellRangeAddress, headerString);
 	                    sheetCopyNumber++;
 	             })
                 //Run the batched commands
