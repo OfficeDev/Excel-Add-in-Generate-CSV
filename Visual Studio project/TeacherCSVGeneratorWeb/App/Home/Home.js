@@ -43,9 +43,9 @@
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
 	        // Run the queued-up commands, and return a promise to indicate task completion
-	        // Create a proxy object for the active worksheet
 
-	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
+	        //Create a new worksheet for the selected service
+	        var studentRoster = ctx.workbook.worksheets.getActiveWorksheet();//ctx.workbook.worksheets.add("_" + sheetCopyNumber);
 	        rosterName = selectedService + "Roster_" + sheetCopyNumber;
 
 	        var cellRangeAddress = "A1:A1";
@@ -140,7 +140,7 @@
 	        var headerRange;
 
 	        // Queue a command to get the sheet with the name of the clicked button
-	        var clickedSheet = worksheets.getItem(rosterName);
+	        var clickedSheet = ctx.workbook.worksheets.getActiveWorksheet();//worksheets.getItem(rosterName);
 
             //add batch command to load the value of the worsheet.tables property
 	        clickedSheet.load("tables");
