@@ -34,13 +34,18 @@ The simplest way to deploy and test your add-in is to copy the files to a networ
     
     b.  In the **Office Add-ins** dialog box, choose **Shared Folder**.
     
-    c.  Choose **College Budget Tracker Sample**>**Insert**. The add-in opens in a task pane and creates the college budget tracker in the active sheet as shown in this diagram. 
+    c.  Choose **Teacher CSV Class Roster sample**>**Insert**. The add-in opens in a task pane and creates the CSV class roster in the active sheet as shown in this diagram. 
       
-   ![College Budget Tracker Sample](images/CollegeBudgetTracker_tracker.PNG) 
+   ![College Budget Tracker Sample](Images/ScreenCap2.PNG) 
 
-    d.  Add some expenses and income using the **Add expenses** and the **Add income** tabs and see how the data and the charts changes dynamically.
+    d.  Choose a classroom management service.
     
-      ![College Budget Tracker Sample](images/CollegeBudgetTracker_taskpane.PNG) 
+    e.  Click the Make Roster button to insert an empty roster in the active worksheet  
+    
+      ![College Budget Tracker Sample](Images/ScreenCap3.PNG) 
+      
+    f.  Click the Excel Export Help button to learn how to export the worksheet as a .csv file.  
+  
     
 ### Visual Studio version
 1.  Copy the project to a local folder and open the Excel-Add-in-JS-CollegeBudgetTracker.sln in Visual Studio.
