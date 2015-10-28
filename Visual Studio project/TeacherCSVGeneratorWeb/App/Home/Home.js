@@ -6,7 +6,7 @@
     "use strict";
 
     var sheetCopyNumber = 1;
-    var selectedService = "Moodle";
+    var selectedService = "";
     var rosterName = "";
 
 	// The initialize function must be run each time a new page is loaded
@@ -17,6 +17,7 @@
 			$('#generate-template').click(generate_templateClickHandler);
 			$('#show-help').click(showHelp);
 			$("#selectService").change(selectServiceHandler);
+			$("#selectService");
 			$(".ms-Dropdown").Dropdown();
 		});
 	};
@@ -33,13 +34,19 @@
 	    switch (selectedService)
 	    {
 	        case "Moodle":
-	            generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]], ["add", "student", "usr-1", "econ 101"])
+	            generateTemplateTable(
+                    [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]],
+                    ["add", "student", "usr-1", "econ 101"])
 	            break;
 	        case "TeacherKit":
-	            generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
+	            generateTemplateTable(
+                    [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
+                    ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
 	            break;
 	        case "MyClassroom":
-	            generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], ["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
+	            generateTemplateTable(
+                    [["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
+                    ["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
 	            break;
 	    }
 	}
@@ -60,8 +67,8 @@
 	        // Run the queued-up commands, and return a promise to indicate task completion
 	        // Create a proxy object for the active worksheet
 
-	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
 	        rosterName = selectedService + "Roster_" + sheetCopyNumber;
+	        var studentRoster = ctx.workbook.worksheets.add(rosterName);
 
 	        var cellRangeAddress = "A1:A1";
 	        var cellRangeStart;
@@ -112,7 +119,7 @@
                     .then(function () {
                         //Fill the table created by the buildRosterRange function.
                         fillRoster(rosterName, defaultTableValues);
-                        app.showNotification("Sheet created");
+                        //app.showNotification("Sheet created");
                     });
 	    }).catch(function (error) {
 	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
@@ -148,6 +155,7 @@
 	        return ctx.sync()
                 .then(function () {
                     //Get a table from the returned tables property value
+                    //TODO get the table by name, using the table name from above
                     table = clickedSheet.tables.getItemAt(0);
 
                     //add batch command to load the value of the table rows collection property
@@ -160,6 +168,7 @@
                             //Get the range of the loaded table header row
                             headerRange = table.getHeaderRowRange();
 
+                            //just set the header values, not load them
                             //Add a command to load the values of the header range
                             headerRange.load("values")
                         })
@@ -208,7 +217,27 @@
         table.getHeaderRowRange().values = headerValues;
         table.style = "TableStyleLight20";
     }
- 
+    /**
+	  * Returns the column name based on a zero-based column index.
+	  * For example, columnName(4) = 5th column = "E". Meanwhile, columnName(1000) = 1001st column = "ALM".
+	  * @param index Zero-based column index.
+	  * @returns {String} Locale-independent column name (e.g., a string comprised of one or more letters in the range "A:Z").
+	  */
+	function columnName(index) {
+	    if (typeof index !== 'number' || isNaN(index) || index < 0) {
+	        throw new OfficeExtension.Error("InvalidArgument", "The parameter for Excel.columnName(x) must be positive and numeric.", [], { errorLocation: "Excel.Util.columnName" });
+	    }
+	    var letters = [];
+	    while (index >= 0) {
+	        letters.push(getSingleLetter(index % 26));
+	        index = Math.floor(index / 26) - 1;
+	    }
+	    return letters.reverse().join('');
+	    function getSingleLetter(zeroThrough25Index) {
+	        return String.fromCharCode(zeroThrough25Index + 65); // ASCII code for "A" is 65
+	    }
+	}
+
     function createCSVStream() {
         Excel.run(function (ctx) {
             var range = ctx.workbook.worksheets.getActiveWorksheet().getUsedRange();
