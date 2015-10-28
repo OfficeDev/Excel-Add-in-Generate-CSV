@@ -36,34 +36,39 @@
         </div>
     </div>
     <div id="content-main" class="padding ms-font-xl ms-fontColor-themeDarker">
-            <p class="ms-font-xxl ms-fontWeight-semibold ms-fontColor-themePrimary">Create a class roster</p>
-            <p >Our Excel CSV export sample creates a CSV file that you can import into a classroom management tool such as TeacherKit.</p>
+        <div class="padding ms-font-m">
+           <p class="ms-font-xxl ms-fontWeight-semibold ms-fontColor-themePrimary">Create a class roster</p>
+
+            <p >Our Excel CSV export sample creates a CSV file to be imported into a classroom management service.</p>
             
             <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">1) Select your management tool</p>
-            <select   id="selectService">
-                <option selected="selected">Moodle</option>
-                <option>TeacherKit</option>
-                <option>MyClassroom</option>
+            <select id="selectService">
+              <option selected="selected">Moodle</option>
+              <option>TeacherKit</option>
+              <option>MyClassroom</option>
             </select>
-            
+            <br />
              <hr />
-            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">2) Create roster table</p>
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">2) Create class roster</p>
             <button id="generate-template" class="ms-Button ms-Button--hero" >
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--download"></i></span>
                 <span class="ms-Button-label">Make roster</span>
             </button>
             <br />
-            <p>When you've finished the roster, you're ready to export as a CSV.</p>
+            <p>When you've filled in your roster, export a CSV file to your computer and then import into the tool.</p>
              <hr />
-            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">3) Make Excel export your roster</p>
-             <p>&nbsp;Learn about exporting your roster.</p>
+            <br />
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">3) Export your roster</p>
+             <p>Excel can export your class roster as a .CSV file.  Click the help button to learn how.</p>
+            <br />
             <button id="show-help" class="ms-Button ms-Button--hero" >
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--question"></i></span>
-                <span class="ms-Button-label">Export CSV file hints</span>
+                <span class="ms-Button-label">Excel Export help</span>
             </button>
+            <br />
              <hr />
             <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">More information</p>
-            <ul class="ms-font-m ms-fontColor-themePrimary">
+            <ul>
                <li><a href="https://docs.moodle.org/29/en/Flat_file"> Learn about Moodle CSV files</a></li>
                <li><a href="https://teacherkit.desk.com/customer/en/portal/topics/187420-data-/articles"> Learn about importing rosters into TeacherKit </a></li>
                <li><a href="https://github.com/OfficeDev/Office-UI-Fabric">Office Fabric on GitHub</a></li>

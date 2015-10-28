@@ -27,55 +27,53 @@
 	<script src="Home.js" type="text/javascript"></script>
 </head>
 <body>
-     <div id="content-header">
+    <div id="content-header">
         <div class="padding ms-bgColor-blue ms-font-xl ms-fontColor-white">
             CSV Generator for Teachers
         </div>
     </div>
     <div id="content-main" class="padding ms-font-xl ms-fontColor-themeDarker">
         <div class="padding ms-font-m">
-            <p >Our Excel CSV export sample creates a CSV file that you can import as a class roster into a classroom management tool such as TeacherKit.</p>
-            
-            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Select your classroom management tool</p>
-           <div class="ms-Dropdown" tabindex="0" style="width:160px">
-            <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--caretDown"></i>
-            <select class="ms-Dropdown-select"  id="selectService">
-             <option>Moodle</option>
-              <option>TeacherKit</option>
-              <option>MyClassroom</option>
+            <p class="ms-font-xxl ms-fontWeight-semibold ms-fontColor-themePrimary">Create a class roster</p>
+
+            <p>Our Excel CSV export sample creates a CSV file to be imported into a classroom management service.</p>
+
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">1) Select your management tool</p>
+            <select id="selectService">
+                <option selected="selected">Moodle</option>
+                <option>TeacherKit</option>
+                <option>MyClassroom</option>
             </select>
-          </div>
             <br />
-             <hr />
-                        <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Create class roster</p>
-            <p>The sample creates a table for your chosen management tool. Click the button to create the table. </p>
-            <button id="generate-template" class="ms-Button ms-Button--hero" >
+            <hr />
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">2) Create class roster</p>
+            <button id="generate-template" class="ms-Button ms-Button--hero">
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--download"></i></span>
                 <span class="ms-Button-label">Make roster</span>
             </button>
             <br />
             <p>When you've filled in your roster, export a CSV file to your computer and then import into the tool.</p>
-             <hr />
+            <hr />
             <br />
-            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">Ready to export your roster?</p>
-             <p>Excel exports your class roster as a .CSV file.  Click the help button to learn how.</p>
+            <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">3) Export your roster</p>
+            <p>Excel can export your class roster as a .CSV file.  Click the help button to learn how.</p>
             <br />
-            <button id="show-help" class="ms-Button ms-Button--hero" >
+            <button id="show-help" class="ms-Button ms-Button--hero">
                 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--question"></i></span>
                 <span class="ms-Button-label">Excel Export help</span>
             </button>
             <br />
-             <hr />
+            <hr />
             <p class="ms-font-xl ms-fontWeight-semibold ms-fontColor-themePrimary">More information</p>
             <ul>
-               <li><a href="https://docs.moodle.org/29/en/Flat_file"> Learn about Moodle CSV files</a></li>
-               <li><a href="https://teacherkit.desk.com/customer/en/portal/topics/187420-data-/articles"> Learn about importing rosters into TeacherKit </a></li>
-               <li><a href="https://github.com/OfficeDev/Office-UI-Fabric">Office Fabric on GitHub</a></li>
-               <li><a href="https://github.com/OfficeDev?utf8=%E2%9C%93&query=-Add-in">More Add-in samples on GitHub</a></li>
-            </ul> 
+                <li><a href="https://docs.moodle.org/29/en/Flat_file"> Learn about Moodle CSV files</a></li>
+                <li><a href="https://teacherkit.desk.com/customer/en/portal/topics/187420-data-/articles"> Learn about importing rosters into TeacherKit </a></li>
+                <li><a href="https://github.com/OfficeDev/Office-UI-Fabric">Office Fabric on GitHub</a></li>
+                <li><a href="https://github.com/OfficeDev?utf8=%E2%9C%93&query=-Add-in">More Add-in samples on GitHub</a></li>
+            </ul>
         </div>
-     
-       </div>
- 
+
+    </div>
+
 </body>
 </html>

@@ -4,16 +4,16 @@ _Applies to: Excel 2016_
 
 This task pane add-in shows how to create table from list of column names using the JavaScript APIs in Excel 2016. It comes in two flavors: code editor and Visual Studio.
 
-![College Budget Tracker Sample](images/CollegeBudgetTracker_tracker.PNG)
+![CSV Generator Sample](Images/ScreenCap1.PNG)
 
 ## Try it out
 ### Code editor version
 
 The simplest way to deploy and test your add-in is to copy the files to a network share.
 
-1.  Create a folder on a network share (for example, \\\MyShare\CollegeBudgetTracker) and copy all the files in the Code Editor folder. 
+1.  Create a folder on a network share (for example, \\\MyShare\Excel_CSV_Generator) and copy all the files in the Code Editor folder. 
 2.  Edit the <SourceLocation> element of the manifest file so that it points to the share location from step 1. 
-3.  Copy the manifest (CollegeBudgetTrackerManifest.xml) to a network share (for example, \\\MyShare\MyManifests).
+3.  Copy the manifest (TeacherCSVGenerator.xml) to a network share (for example, \\\MyShare\MyManifests).
 4.  Add the share location that contains the manifest as a trusted app catalog in Excel.
 
     a.  Launch Excel and open a blank spreadsheet.  
