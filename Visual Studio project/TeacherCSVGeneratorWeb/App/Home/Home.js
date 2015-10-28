@@ -5,10 +5,8 @@
 (function () {
     "use strict";
 
-    var sheetCopyNumber = 1;
     var selectedService = "Moodle";
     var rosterName = "";
-    var tableCreated = "false";
 
 	// The initialize function must be run each time a new page is loaded
 	Office.initialize = function (reason) {
@@ -29,52 +27,58 @@
 		});
 	};
 
-    /*******************************************/
+    /*********************************************************/
     /* Change handler for service dropdown. Get the selected */
     /*  service value                                                            */
-    /*******************************************/
+    /*********************************************************/
 	function selectServiceHandler() {
 	    selectedService =$(this).val();
 	}
 
 	function generate_templateClickHandler() {
 
+	    /***********************************************/
+	    /*Check for existing tables and then either 
+        /*generate a new table or warn the user that
+        /*there is an existing table that may have data
+        /***********************************************/
 	    Excel.run(function (ctx) {
 	        ctx.workbook.load("tables");
 	        return ctx.sync().then(function () {
 	            if (ctx.workbook.tables.count == 0) {
 	                switch (selectedService) {
 	                    case "Moodle":
-	                        generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]], [["add", "student", "usr-1", "econ 101"]])
+	                        generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]],
+                                [["add", "student", "usr-1", "econ 101"]])
 	                        break;
 	                    case "TeacherKit":
-	                        generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], [["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
+	                        generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
+                                [["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
 	                        break;
 	                    case "MyClassroom":
-	                        generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], [["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
+	                        generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
+                                [["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
 	                        break;
 	                }
-
 	            }
 	            else {
 	                app.showNotification("Delete the existing table before creating a new one.");
 	            }
-
 	        })
 	    });
 
 	}
 
-    /*******************************************/
+    /*******************************************************/
     /* Open a pop-up window with the steps to export a csv */
-    /*******************************************/
+    /*******************************************************/
 	function showHelp() {
 	    var helpWindow = window.open("HelpPop.html", "mywindow", "menubar=1,resizable=1,width=800,height=850");
 	}
 
-    /*******************************************/
+    /****************************************************/
     /* Populate worksheet with students for chosen tool */
-    /*******************************************/
+    /****************************************************/
 	function generateTemplateTable(headerString, defaultTableValues) {
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
@@ -91,8 +95,6 @@
                     .then(function () {
                         //Fill the table created by the buildRosterRange function.
                         fillRoster(rosterName, defaultTableValues);
-                        tableCreated = "true";
-                        
                     });
 	    }).catch(function (error) {
 	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
@@ -105,9 +107,9 @@
     }
 
 
-    /*****************************************/
-    /* Fill the roster table with fake student data        */
-    /*****************************************/
+    /***********************************************/
+    /* Fill the roster table with fake student data   */
+    /***********************************************/
 	function fillRoster(rosterName, defaultValues) {
 
 	    // Run a batch operation against the Excel object model
@@ -162,9 +164,9 @@
 		});
 	}
 
-    /*****************************************/
+    /***************************************************/
     /* Create the roster table in the active worksheet */
-    /*****************************************/
+    /***************************************************/
 	function buildRosterTable(studentRoster, headerValues) {
 
         var tableRangeString =  "A1:" + columnName(headerValues[0].length-1) + "1";
