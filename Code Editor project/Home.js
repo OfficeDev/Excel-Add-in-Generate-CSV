@@ -8,11 +8,19 @@
     var sheetCopyNumber = 1;
     var selectedService = "Moodle";
     var rosterName = "";
+    var tableCreated = "false";
 
 	// The initialize function must be run each time a new page is loaded
 	Office.initialize = function (reason) {
 		$(document).ready(function (){
-			app.initialize();
+		    app.initialize();
+
+		    // If not using Excel 2016, return
+		    if (!Office.context.requirements.isSetSupported('ExcelApi', '1.1')) {
+		        app.showNotification("Need Office 2016 or greater", "Sorry, this add-in only works with newer versions of Excel.");
+		        return;
+		    }
+
 			$('#generate-template').button();
 			$('#generate-template').click(generate_templateClickHandler);
 			$('#show-help').click(showHelp);
@@ -30,18 +38,31 @@
 	}
 
 	function generate_templateClickHandler() {
-	    switch (selectedService)
-	    {
-	        case "Moodle":
-	            generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]], ["add", "student", "usr-1", "econ 101"])
-	            break;
-	        case "TeacherKit":
-	            generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], ["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
-	            break;
-	        case "MyClassroom":
-	            generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], ["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"])
-	            break;
-	    }
+
+	    Excel.run(function (ctx) {
+	        ctx.workbook.load("tables");
+	        return ctx.sync().then(function () {
+	            if (ctx.workbook.tables.count == 0) {
+	                switch (selectedService) {
+	                    case "Moodle":
+	                        generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]], [["add", "student", "usr-1", "econ 101"]])
+	                        break;
+	                    case "TeacherKit":
+	                        generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], [["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
+	                        break;
+	                    case "MyClassroom":
+	                        generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]], [["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
+	                        break;
+	                }
+
+	            }
+	            else {
+	                app.showNotification("Delete the existing table before creating a new one.");
+	            }
+
+	        })
+	    });
+
 	}
 
     /*******************************************/
@@ -58,61 +79,20 @@
 	    // Run a batch operation against the Excel object model
 	    Excel.run(function (ctx) {
 	        // Run the queued-up commands, and return a promise to indicate task completion
-	        // Create a proxy object for the active worksheet
 
-	        var studentRoster = ctx.workbook.worksheets.add("_" + sheetCopyNumber);
-	        rosterName = selectedService + "Roster_" + sheetCopyNumber;
-
-	        var cellRangeAddress = "A1:A1";
-	        var cellRangeStart;
-	        var cellRangeEnd;
-
-
+	        //Create a new worksheet for the selected service
+	        var studentRoster = ctx.workbook.worksheets.getActiveWorksheet();
+	        studentRoster.name = selectedService;
+	        rosterName = selectedService;
+	        buildRosterTable(studentRoster,  headerString);
 	        return ctx.sync()
-                .then(function () {
-
-                    /****************************************************
-                    / We need to build a range address string in the 
-                    / format RC:RC where the range starts at R1:C1
-                    / and ends at R2:C?? The end column depends on 
-                    / the number of header colums defined in the service header string
-                    /******************************************************/
-                    cellRangeStart = studentRoster.getCell(0, 0);
-                    cellRangeEnd = studentRoster.getCell(1, headerString[0].length - 1);
-                    cellRangeStart.load("address");
-                    cellRangeEnd.load("address");
-
-                })
-                .then(ctx.sync)
-                .then(function () {
-
-                       /****************************************************
-                        / Given the loaded cell addresses, concantinate the two addresses
-                        / into a range, subtracting out the sheet name
-                        /******************************************************/
-                  
-                        //Get address of the starting cell
-                        cellRangeAddress = cellRangeStart.address + ":";
-
-                        //split out the sheet name of the end of the range
-                        var addressArray = cellRangeEnd.address.split("!");
-
-                        //Append the address of the ending cell
-                        cellRangeAddress += addressArray[1];
-
-                        //split out the sheet name at the start of the range
-                        addressArray = cellRangeAddress.split("!");
-                        cellRangeAddress = addressArray[1];
-
-	                    buildRosterTable(studentRoster, cellRangeAddress, headerString);
-	                    sheetCopyNumber++;
-	             })
                 //Run the batched commands
                 .then(ctx.sync)
                     .then(function () {
                         //Fill the table created by the buildRosterRange function.
                         fillRoster(rosterName, defaultTableValues);
-                        app.showNotification("Sheet created");
+                        tableCreated = "true";
+                        
                     });
 	    }).catch(function (error) {
 	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
@@ -138,7 +118,7 @@
 	        var headerRange;
 
 	        // Queue a command to get the sheet with the name of the clicked button
-	        var clickedSheet = worksheets.getItem(rosterName);
+	        var clickedSheet = ctx.workbook.worksheets.getActiveWorksheet();
 
             //add batch command to load the value of the worsheet.tables property
 	        clickedSheet.load("tables");
@@ -148,7 +128,7 @@
 	        return ctx.sync()
                 .then(function () {
                     //Get a table from the returned tables property value
-                    table = clickedSheet.tables.getItemAt(0);
+                    table = clickedSheet.tables.getItem(selectedService);
 
                     //add batch command to load the value of the table rows collection property
                     table.load("rows");
@@ -162,23 +142,13 @@
 
                             //Add a command to load the values of the header range
                             headerRange.load("values")
+                            var tableRows = table.rows;
+                            tableRows.add(null, defaultValues);
+
                         })
 
                         //Run the batched commands
                         .then(ctx.sync)
-                            .then(function () {
-
-                                //loop through the loaded header range values
-                                var headers = headerRange.values;
-                                for (var i = 0; i < headers.length; i++) {
-                                    var value = headers[i];
-                                    for (var j = 0; j < value.length; j++) {
-                                        clickedSheet.getCell(1, j).values = defaultValues[j];
-                                    }
-                                }
-                                // Queue a command to activate the clicked sheet
-                                clickedSheet.activate();
-                        })
 	        //Run the queued-up commands, and return a promise to indicate task completion
 	        return ctx.sync();
 	    })
@@ -195,12 +165,9 @@
     /*****************************************/
     /* Create the roster table in the active worksheet */
     /*****************************************/
-	function buildRosterTable(studentRoster, tableRangeString, headerValues) {
+	function buildRosterTable(studentRoster, headerValues) {
 
-        // Create a proxy object for the active worksheet
-        studentRoster.name = rosterName;
-
-        // Queue a command to add a new table
+        var tableRangeString =  "A1:" + columnName(headerValues[0].length-1) + "1";
         var table = studentRoster.tables.add(tableRangeString, true);
         table.name = rosterName;
 
@@ -209,6 +176,28 @@
         table.style = "TableStyleLight20";
     }
  
+    /**
+      * Returns the column name based on a zero-based column index.
+      * For example, columnName(4) = 5th column = "E". Meanwhile, columnName(1000) = 1001st column = "ALM".
+      * @param index Zero-based column index.
+      * @returns {String} Locale-independent column name (e.g., a string comprised of one or more letters in the range "A:Z").
+      */
+	function columnName(index) {
+	    if (typeof index !== 'number' || isNaN(index) || index < 0) {
+	        throw new OfficeExtension.Error("InvalidArgument", "The parameter for Excel.columnName(x) must be positive and numeric.", [], { errorLocation: "Excel.Util.columnName" });
+	    }
+	    var letters = [];
+	    while (index >= 0) {
+	        letters.push(getSingleLetter(index % 26));
+	        index = Math.floor(index / 26) - 1;
+	    }
+	    return letters.reverse().join('');
+	    function getSingleLetter(zeroThrough25Index) {
+	        return String.fromCharCode(zeroThrough25Index + 65); // ASCII code for "A" is 65
+	    }
+	}
+
+
     function createCSVStream() {
         Excel.run(function (ctx) {
             var range = ctx.workbook.worksheets.getActiveWorksheet().getUsedRange();
