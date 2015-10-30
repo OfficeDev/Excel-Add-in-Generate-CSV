@@ -44,6 +44,7 @@
         /***********************************************/
 	    Excel.run(function (ctx) {
 	        ctx.workbook.load("tables");
+            
 	        return ctx.sync().then(function () {
 	            if (ctx.workbook.tables.count == 0) {
 	                switch (selectedService) {
@@ -86,16 +87,34 @@
 
 	        //Create a new worksheet for the selected service
 	        var studentRoster = ctx.workbook.worksheets.getActiveWorksheet();
+	        var cellRangeEnd;
+	        var cellRangeAddress = "A1:";
+            
 	        studentRoster.name = selectedService;
 	        rosterName = selectedService;
-	        buildRosterTable(studentRoster,  headerString);
+
+	        //Get the cell in the lower right corner of the table range and
+            //load the address property of the cell
+	        cellRangeEnd = studentRoster.getCell(0, headerString[0].length - 1);
+	        cellRangeEnd.load("address");
+
 	        return ctx.sync()
                 //Run the batched commands
                 .then(ctx.sync)
                     .then(function () {
-                        //Fill the table created by the buildRosterRange function.
-                        fillRoster(rosterName, defaultTableValues);
-                    });
+
+                        //Calculate the table range address
+                        var addressArray = cellRangeEnd.address.split("!");
+                        cellRangeAddress += addressArray[1];
+
+                        //Build the table in the specified range
+                        buildRosterTable(studentRoster, headerString, cellRangeAddress);
+                    }).then(ctx.sync)
+                        .then(function () {
+
+                            //Fill the table created by the buildRosterRange function.
+                            fillRoster(rosterName, defaultTableValues);
+                        });
 	    }).catch(function (error) {
 	        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
 	        app.showNotification("Error: " + error);
@@ -150,8 +169,9 @@
                         })
 
                         //Run the batched commands
-                        .then(ctx.sync)
+                        .then(ctx.sync);
 	        //Run the queued-up commands, and return a promise to indicate task completion
+            //TODO: figure out if this .sync is ever reached
 	        return ctx.sync();
 	    })
 		.catch(function (error) {
@@ -167,9 +187,9 @@
     /***************************************************/
     /* Create the roster table in the active worksheet */
     /***************************************************/
-	function buildRosterTable(studentRoster, headerValues) {
+	function buildRosterTable(studentRoster, headerValues, tableRangeString) {
 
-        var tableRangeString =  "A1:" + columnName(headerValues[0].length-1) + "1";
+       // var tableRangeString =  "A1:" + columnName(headerValues[0].length-1) + "1";
         var table = studentRoster.tables.add(tableRangeString, true);
         table.name = rosterName;
 
@@ -177,28 +197,6 @@
         table.getHeaderRowRange().values = headerValues;
         table.style = "TableStyleLight20";
     }
- 
-    /**
-      * Returns the column name based on a zero-based column index.
-      * For example, columnName(4) = 5th column = "E". Meanwhile, columnName(1000) = 1001st column = "ALM".
-      * @param index Zero-based column index.
-      * @returns {String} Locale-independent column name (e.g., a string comprised of one or more letters in the range "A:Z").
-      */
-	function columnName(index) {
-	    if (typeof index !== 'number' || isNaN(index) || index < 0) {
-	        throw new OfficeExtension.Error("InvalidArgument", "The parameter for Excel.columnName(x) must be positive and numeric.", [], { errorLocation: "Excel.Util.columnName" });
-	    }
-	    var letters = [];
-	    while (index >= 0) {
-	        letters.push(getSingleLetter(index % 26));
-	        index = Math.floor(index / 26) - 1;
-	    }
-	    return letters.reverse().join('');
-	    function getSingleLetter(zeroThrough25Index) {
-	        return String.fromCharCode(zeroThrough25Index + 65); // ASCII code for "A" is 65
-	    }
-	}
-
 
     function createCSVStream() {
         Excel.run(function (ctx) {
