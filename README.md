@@ -48,14 +48,17 @@ The simplest way to deploy and test your add-in is to copy the files to a networ
   
     
 ### Visual Studio version
-1.  Copy the project to a local folder and open the Excel-Add-in-JS-CollegeBudgetTracker.sln in Visual Studio.
+1.  Copy the project to a local folder and open the TeacherCSVGenerator.sln in Visual Studio.
 2.  Press F5 to build and deploy the sample add-in. Excel launches and the add-in opens in a task pane to the right of a blank worksheet, as shown in the following figure. 
         
-  ![College Budget Tracker Sample](images/CollegeBudgetTracker_tracker.PNG) 
+  ![Excel CSV Generator Sample](Images/ScreenCap1.PNG) 
 
-3.  Add some expenses and income using the **Add expenses** and the **Add income** tabs and see how the data and the charts changes dynamically.
+3.  Select an online classroom management service from the the dropdown list
+4.  Add a student roster table using the **Make roster** button and see the table created in the active worksheet.
 
-  ![College Budget Tracker Sample](images/CollegeBudgetTracker_taskpane.PNG) 
+  ![College Budget Tracker Sample](Images/ScreenCap3.PNG) 
+5.  Add students to the roster by filling the cells in rows below the table header.
+6.  Use Excel's export feature to save the worksheet as a .csv file. This file is in the right format to be imported into the service of your choice.
 
 
 ### Learn more
