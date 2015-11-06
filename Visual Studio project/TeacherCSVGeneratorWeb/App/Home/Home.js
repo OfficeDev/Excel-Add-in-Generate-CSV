@@ -107,7 +107,12 @@
                     cellRangeAddress += addressArray[1];
 
                     //Build the table in the specified range
-                    buildRosterTable(studentRoster, headerString, cellRangeAddress);
+                    var table = studentRoster.tables.add(cellRangeAddress, true);
+                    table.name = rosterName;
+
+                    // Queue a command to get the newly added table
+                    table.getHeaderRowRange().values = headerString;
+                    table.style = "TableStyleLight20";
                 })
                 .then(ctx.sync)
                 .then(function () {
@@ -134,7 +139,7 @@
         // Run a batch operation against the Excel object model
         Excel.run(function (ctx) {
             // Create a proxy object for the worksheets collection 
-            var worksheets = ctx.workbook.worksheets;
+            
             var table;
             var headerRange;
 
@@ -160,20 +165,6 @@
 		    }
 		});
     }
-
-    /***************************************************/
-    /* Create the roster table in the active worksheet */
-    /***************************************************/
-    function buildRosterTable(studentRoster, headerValues, tableRangeString) {
-
-        var table = studentRoster.tables.add(tableRangeString, true);
-        table.name = rosterName;
-
-        // Queue a command to get the newly added table
-        table.getHeaderRowRange().values = headerValues;
-        table.style = "TableStyleLight20";
-    }
-
 })();
  
 
