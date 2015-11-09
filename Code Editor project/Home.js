@@ -1,7 +1,5 @@
 ﻿/* Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. 
     See full license at the bottom of this file. */
-
-
 (function () {
     "use strict";
 
@@ -43,10 +41,11 @@
         /*there is an existing table that may have data
         /***********************************************/
         Excel.run(function (ctx) {
-            ctx.workbook.load("tables");
-
+            //ctx.workbook.load("tables");
+            var activeSheet = ctx.workbook.worksheets.getActiveWorksheet();
+            ctx.load(activeSheet.tables, "name");
             return ctx.sync().then(function () {
-                if (ctx.workbook.tables.count == 0) {
+                if (activeSheet.tables.count == 0) {
                     switch (selectedService) {
                         case "Moodle":
                             generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]],
@@ -63,11 +62,12 @@
                     }
                 }
                 else {
-                    app.showNotification("Delete the existing table before creating a new one.");
+                    app.showNotification("Error", "Remove any existing student roster tables before adding a new one");
                 }
             })
+        }).catch(function (error) {
+            app.showNotification("Error", "Something went wrong: " + error.message);
         });
-
     }
 
     /*******************************************************/
@@ -86,40 +86,29 @@
             // Run the queued-up commands, and return a promise to indicate task completion
 
             //Create a new worksheet for the selected service
-            var studentRoster = ctx.workbook.worksheets.getActiveWorksheet();
-            var cellRangeEnd;
-            var cellRangeAddress = "A1:";
-
-            studentRoster.name = selectedService;
+            var rosterWorksheet = ctx.workbook.worksheets.getActiveWorksheet();
+            rosterWorksheet.name = selectedService;
             rosterName = selectedService;
 
-            //Get the cell in the lower right corner of the table range and
-            //load the address property of the cell
-            cellRangeEnd = studentRoster.getCell(0, headerString[0].length - 1);
-            cellRangeEnd.load("address");
+            var tableRange = rosterWorksheet.getCell(0, 0).getBoundingRect(
+                rosterWorksheet.getCell(0, headerString[0].length - 1))
 
-            return ctx.sync()
+            tableRange.load("address");
+
             //Run the batched commands
-                .then(function () {
+            return ctx.sync()
+            .then(function () {
 
-                    //Calculate the table range address
-                    var addressArray = cellRangeEnd.address.split("!");
-                    cellRangeAddress += addressArray[1];
+                //Build the table in the specified range
+                var table = rosterWorksheet.tables.add(tableRange.address, true);
+                table.name = rosterName;
 
-                    //Build the table in the specified range
-                    var table = studentRoster.tables.add(cellRangeAddress, true);
-                    table.name = rosterName;
-
-                    // Queue a command to get the newly added table
-                    table.getHeaderRowRange().values = headerString;
-                    table.style = "TableStyleLight20";
-                })
-                .then(ctx.sync)
-                .then(function () {
-
-                    //Fill the table created by the buildRosterRange function.
-                    fillRoster(rosterName, defaultTableValues);
-                });
+                // Queue a command to get the newly added table
+                table.getHeaderRowRange().values = headerString;
+                table.style = "TableStyleLight20";
+                table.rows.add(null, defaultTableValues)
+            })
+            .then(ctx.sync);
         }).catch(function (error) {
             // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
             app.showNotification("Error: " + error);
@@ -129,45 +118,7 @@
             }
         });
     }
-
-
-    /***********************************************/
-    /* Fill the roster table with fake student data   */
-    /***********************************************/
-    function fillRoster(rosterName, defaultValues) {
-
-        // Run a batch operation against the Excel object model
-        Excel.run(function (ctx) {
-            // Create a proxy object for the worksheets collection 
-
-            var table;
-            var headerRange;
-
-            // Queue a command to get the sheet with the name of the clicked button
-            var rosterSheet = ctx.workbook.worksheets.getActiveWorksheet();
-
-            //Run the queued-up commands
-            return ctx.sync()
-                 .then(function () {
-                     //Queue a command to get a table from the worksheet
-                     table = rosterSheet.tables.getItem(selectedService);
-                     table.rows.add(null, defaultValues)
-                 })
-                .then(ctx.sync)
-            //Run the queued-up commands, and return a promise to indicate task completion
-        })
-		.catch(function (error) {
-		    // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
-		    app.showNotification("Error: " + error);
-		    console.log("Error: " + error);
-		    if (error instanceof OfficeExtension.Error) {
-		        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-		    }
-		});
-    }
 })();
-
-
 /* 
 Excel-Add-in-Generate-CSV, https://github.com/OfficeDev/Excel-Add-in-Generate-CSV
 
