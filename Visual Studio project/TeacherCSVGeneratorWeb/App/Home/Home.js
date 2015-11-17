@@ -39,10 +39,10 @@
                                 [["add", "student", "usr-1", "econ 101"]]);
                         case "TeacherKit":
                             return generateTemplateTable(ctx, activeSheet, [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
-                                [["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]]);
+                                [["Alex", "Dunsmuir", "alexd@contosodemo6.com", "parent@home.com", "555-1212"]]);
                         case "MyClassroom":
                             return generateTemplateTable(ctx, activeSheet,[["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
-                                [["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]]);
+                                [["Smith", "Dunsmuir", "Alex", "alexd@contosodemo6.com", "parent@home.com", "555-1212"]]);
                     }
                 }
                 else {
