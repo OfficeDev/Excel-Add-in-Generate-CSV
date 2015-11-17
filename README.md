@@ -2,7 +2,7 @@
 
 _Applies to: Excel 2016_
 
-This task pane add-in shows how to create table from list of column names using the JavaScript APIs in Excel 2016. It comes in two flavors: code editor and Visual Studio.
+This task pane add-in shows how to create a table from a list of column names by using the JavaScript APIs in Excel 2016. It comes in two flavors: code editor and Visual Studio.
 
 ![CSV Generator Sample](Images/ScreenCap1.PNG)
 
@@ -11,8 +11,8 @@ This task pane add-in shows how to create table from list of column names using 
 
 The simplest way to deploy and test your add-in is to copy the files to a network share.
 
-1.  Create a folder on a network share (for example, \\\MyShare\Excel_CSV_Generator) and copy all the files in the Code Editor folder. 
-2.  Edit the <SourceLocation> element of the manifest file so that it points to the share location from step 1. 
+1.  Create a folder on a network share (for example, \\\MyShare\Excel_CSV_Generator) and then copy all the files in the Code Editor folder. 
+2.  Edit the <SourceLocation> element of the manifest file so that it points to the share location created in step 1. 
 3.  Copy the manifest (TeacherCSVGenerator.xml) to a network share (for example, \\\MyShare\MyManifests).
 4.  Add the share location that contains the manifest as a trusted app catalog in Excel.
 
@@ -30,11 +30,11 @@ The simplest way to deploy and test your add-in is to copy the files to a networ
         
 5.  Test and run the add-in. 
 
-    a.  In the **Insert tab** in Excel 2016, choose **My Add-ins**. 
+    a.  On the **Insert tab** in Excel 2016, choose **My Add-ins**. 
     
     b.  In the **Office Add-ins** dialog box, choose **Shared Folder**.
     
-    c.  Choose **Teacher CSV Class Roster sample**>**Insert**. The add-in opens in a task pane and creates the CSV class roster in the active sheet as shown in this diagram. 
+    c.  Choose **Teacher CSV Class Roster sample**>**Insert**. The add-in opens in a task pane and creates the CSV class roster in the active sheet as shown in this screenshot. 
       
    ![College Budget Tracker Sample](Images/ScreenCap2.PNG) 
 
@@ -49,16 +49,16 @@ The simplest way to deploy and test your add-in is to copy the files to a networ
     
 ### Visual Studio version
 1.  Copy the project to a local folder and open the TeacherCSVGenerator.sln in Visual Studio.
-2.  Press F5 to build and deploy the sample add-in. Excel launches and the add-in opens in a task pane to the right of a blank worksheet, as shown in the following figure. 
+2.  Press F5 to build and deploy the sample add-in. Excel launches and the add-in opens in a task pane to the right of a blank worksheet, as shown in the following screenshot. 
         
   ![Excel CSV Generator Sample](Images/ScreenCap1.PNG) 
 
-3.  Select an online classroom management service from the the dropdown list
-4.  Add a student roster table using the **Make roster** button and see the table created in the active worksheet.
+3.  Select an online classroom management service from the drop-down list
+4.  Add a student roster table by using the **Make roster** button and look at the table created in the active worksheet.
 
   ![College Budget Tracker Sample](Images/ScreenCap3.PNG) 
-5.  Add students to the roster by filling the cells in rows below the table header.
-6.  Use Excel's export feature to save the worksheet as a .csv file. This file is in the right format to be imported into the service of your choice.
+5.  Add students to the roster by filling in the cells in rows below the table header.
+6.  Use the export feature in Excel to save the worksheet as a .csv file. This file is in the right format to be imported into the service of your choice.
 
 
 ### Learn more
