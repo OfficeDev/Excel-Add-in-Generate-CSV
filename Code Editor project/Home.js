@@ -3,9 +3,6 @@
 (function () {
     "use strict";
 
-    var selectedService = "Moodle";
-    var rosterName = "";
-
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -18,22 +15,13 @@
             }
 
             $('#generate-template').button();
-            $('#generate-template').click(generate_templateClickHandler);
+            $('#generate-template').click(generateTemplateClickHandler);
             $('#show-help').click(showHelp);
-            $("#selectService").change(selectServiceHandler);
             $(".ms-Dropdown").Dropdown();
         });
     };
 
-    /*********************************************************/
-    /* Change handler for service dropdown. Get the selected */
-    /*  service value                                                            */
-    /*********************************************************/
-    function selectServiceHandler() {
-        selectedService = $(this).val();
-    }
-
-    function generate_templateClickHandler() {
+    function generateTemplateClickHandler() {
 
         /***********************************************/
         /*Check for existing tables and then either 
@@ -41,32 +29,32 @@
         /*there is an existing table that may have data
         /***********************************************/
         Excel.run(function (ctx) {
-            //ctx.workbook.load("tables");
             var activeSheet = ctx.workbook.worksheets.getActiveWorksheet();
             ctx.load(activeSheet.tables, "name");
             return ctx.sync().then(function () {
-                if (activeSheet.tables.count == 0) {
-                    switch (selectedService) {
+                if (activeSheet.tables.count === 0) {
+                    switch ($("#select-service").val()) {
                         case "Moodle":
-                            generateTemplateTable([["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]],
-                                [["add", "student", "usr-1", "econ 101"]])
-                            break;
+                            return generateTemplateTable(ctx, activeSheet, [["ACTION", "ROLE", "USER ID NUMBER", "COURSE ID NUMBER"]],
+                                [["add", "student", "usr-1", "econ 101"]]);
                         case "TeacherKit":
-                            generateTemplateTable([["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
-                                [["Alex", "Dunsmuir", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
-                            break;
+                            return generateTemplateTable(ctx, activeSheet, [["FIRST NAME", "LAST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
+                                [["Alex", "Dunsmuir", "alexd@contosodemo6.com", "parent@home.com", "555-1212"]]);
                         case "MyClassroom":
-                            generateTemplateTable([["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
-                                [["Smith", "Dunsmuir", "Alex", "alexd@patsoldemo6.com", "parent@home.com", "555-1212"]])
-                            break;
+                            return generateTemplateTable(ctx, activeSheet, [["INSTRUCTOR", "STUDENT LAST NAME", "STUDENT FIRST NAME", "EMAIL", "PARENTEMAIL", "PARENTPHONE"]],
+                                [["Smith", "Dunsmuir", "Alex", "alexd@contosodemo6.com", "parent@home.com", "555-1212"]]);
                     }
                 }
                 else {
                     app.showNotification("Error", "Remove any existing student roster tables before adding a new one");
                 }
-            })
+            });
         }).catch(function (error) {
-            app.showNotification("Error", "Something went wrong: " + error.message);
+            app.showNotification("Error", "Something went wrong: " + error);
+            console.log("Error: " + error);
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
         });
     }
 
@@ -74,49 +62,36 @@
     /* Open a pop-up window with the steps to export a csv */
     /*******************************************************/
     function showHelp() {
-        var helpWindow = window.open("HelpPop.html", "mywindow", "menubar=1,resizable=1,width=800,height=850");
+        window.open("HelpPop.html", "mywindow", "menubar=1,resizable=1,width=800,height=850");
     }
 
     /****************************************************/
     /* Populate worksheet with students for chosen tool */
     /****************************************************/
-    function generateTemplateTable(headerString, defaultTableValues) {
-        // Run a batch operation against the Excel object model
-        Excel.run(function (ctx) {
-            // Run the queued-up commands, and return a promise to indicate task completion
+    function generateTemplateTable(ctx, activeSheet, headerString, defaultTableRow) {
 
-            //Create a new worksheet for the selected service
-            var rosterWorksheet = ctx.workbook.worksheets.getActiveWorksheet();
-            rosterWorksheet.name = selectedService;
-            rosterName = selectedService;
+        activeSheet.name = $("#select-service").val();
 
-            var tableRange = rosterWorksheet.getCell(0, 0).getBoundingRect(
-                rosterWorksheet.getCell(0, headerString[0].length - 1))
+        var tableRange = activeSheet.getCell(0, 0).getBoundingRect(
+            activeSheet.getCell(0, headerString[0].length - 1));
 
-            tableRange.load("address");
+        tableRange.load("address");
 
-            //Run the batched commands
-            return ctx.sync()
-            .then(function () {
+        //Run the batched commands
+        return ctx.sync()
+        .then(function () {
 
-                //Build the table in the specified range
-                var table = rosterWorksheet.tables.add(tableRange.address, true);
-                table.name = rosterName;
+            //Build the table in the specified range
+            var table = activeSheet.tables.add(tableRange.address, true);
+            table.name = $("#select-service").val();
 
-                // Queue a command to get the newly added table
-                table.getHeaderRowRange().values = headerString;
-                table.style = "TableStyleLight20";
-                table.rows.add(null, defaultTableValues)
-            })
-            .then(ctx.sync);
-        }).catch(function (error) {
-            // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
-            app.showNotification("Error: " + error);
-            console.log("Error: " + error);
-            if (error instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(error.debugInfo));
-            }
-        });
+            // Queue a command to get the newly added table
+            table.getHeaderRowRange().values = headerString;
+            table.style = "TableStyleLight20";
+            table.rows.add(null, defaultTableRow);
+        })
+        .then(ctx.sync);
+
     }
 })();
 /* 
