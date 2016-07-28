@@ -11,9 +11,9 @@ Dieses Aufgabenbereich-Add-In veranschaulicht das Erstellen einer Tabelle aus ei
 
 Am einfachsten können Sie Ihr Add-In bereitstellen und testen, indem Sie die Dateien in eine Netzwerkfreigabe kopieren.
 
-1.  Erstellen Sie einen Ordner in einer Netzwerkfreigabe (z.ä B. \\\MyShare\Excel_CSV_Generator), und kopieren Sie alle Dateien im Ordner „Code-Editor”. 
+1.  Erstellen Sie einen Ordner in einer Netzwerkfreigabe (z. B. \\\MyShare\Excel_CSV_Generator), und kopieren Sie alle Dateien im Ordner „Code-Editor”. 
 2.  Bearbeiten Sie das <SourceLocation>-Element der Manifestdatei, damit es auf den Freigabepfad aus Schrittä 1 zeigt. 
-3.  Kopieren Sie das Manifest (TeacherCSVGenerator.xml) in eine Netzwerkfreigabe (z.ä B. \\\MyShare\MyManifests).
+3.  Kopieren Sie das Manifest (TeacherCSVGenerator.xml) in eine Netzwerkfreigabe (z. B. \\\MyShare\MyManifests).
 4.  Fügen Sie den Freigabepfad, unter dem das Manifest enthalten ist, als vertrauenswürdigen App-Katalog in Excel hinzu.
 
     a. Starten Sie Excel, und öffnen Sie ein leeres Arbeitsblatt.  
