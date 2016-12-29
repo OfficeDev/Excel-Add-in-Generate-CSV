@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherCSVGenerator", "TeacherCSVGenerator.csproj", "{9DD14DBD-A3CA-4CEE-B3F9-74FFD5C32862}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherCSVGenerator", "TeacherCSVGenerator\TeacherCSVGenerator.csproj", "{9DD14DBD-A3CA-4CEE-B3F9-74FFD5C32862}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherCSVGeneratorWeb", "..\TeacherCSVGeneratorWeb\TeacherCSVGeneratorWeb.csproj", "{CC5BD31C-AA4B-4C01-BEBF-9EF1EFC8FA55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherCSVGeneratorWeb", "TeacherCSVGeneratorWeb\TeacherCSVGeneratorWeb.csproj", "{CC5BD31C-AA4B-4C01-BEBF-9EF1EFC8FA55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
