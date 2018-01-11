@@ -1,4 +1,4 @@
-# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Excel 2016 的 CSV 產生器工作窗格增益集範例
+﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Excel 2016 的 CSV 產生器工作窗格增益集範例
 
 _適用於：Excel 2016_
 
@@ -61,7 +61,7 @@ _適用於：Excel 2016_
 6.  使用 Excel 中的匯出功能，將工作表儲存為 .csv 檔案。這個檔案的格式正確，可以匯入您所選擇的服務。
 
 
-### <a name="learn-more"></a>深入了解
+### <a name="learn-more"></a>Learn more
 
 Excel JavaScript API 還有其他許多功能，可供您用於開發增益集。以下列出其中幾個可用的資源。
 
@@ -70,3 +70,6 @@ Excel JavaScript API 還有其他許多功能，可供您用於開發增益集�
 3.  [Excel 增益集程式碼範例](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-code-samples.md)
 4.  [Excel 增益集 JavaScript API 參考](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-javascript-reference.md)
 5.  [建立第一個 Excel 增益集](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+
+
+此專案已採用 [Microsoft 開放原始碼管理辦法](https://opensource.microsoft.com/codeofconduct/)。如需詳細資訊，請參閱[管理辦法常見問題集](https://opensource.microsoft.com/codeofconduct/faq/)，如果有其他問題或意見，請連絡 [opencode@microsoft.com](mailto:opencode@microsoft.com)。

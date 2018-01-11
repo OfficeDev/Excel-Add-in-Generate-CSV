@@ -1,4 +1,4 @@
-# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Excel 2016 用の CSV ジェネレーター作業ウィンドウ アドインのサンプル
+﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Excel 2016 用の CSV ジェネレーター作業ウィンドウ アドインのサンプル
 
 _適用対象:Excel 2016_
 
@@ -36,7 +36,7 @@ _適用対象:Excel 2016_
 
     c.**[教師用 CSV クラス名簿のサンプル]**>**[挿入]** の順に選択します。アドインが作業ウィンドウで開き、次のスクリーンショットに示すように、作業中のシートで CSV クラス名簿が作成されます。
 
-   ![大学予算の追跡ツールのサンプル](../Images/ScreenCap2.PNG)
+   ![大学予算追跡ツールのサンプル](../Images/ScreenCap2.PNG)
 
     d.教室管理サービスを選択します。
 
@@ -70,3 +70,6 @@ _適用対象:Excel 2016_
 3.  [Excel アドインのコード サンプル](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-code-samples.md)
 4.  [Excel アドインの JavaScript API リファレンス](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-javascript-reference.md)
 5.  [最初の Excel アドインをビルドする](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+
+
+このプロジェクトでは、[Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/) が採用されています。詳細については、「[Code of Conduct の FAQ](https://opensource.microsoft.com/codeofconduct/faq/)」を参照してください。また、その他の質問やコメントがあれば、[opencode@microsoft.com](mailto:opencode@microsoft.com) までお問い合わせください。

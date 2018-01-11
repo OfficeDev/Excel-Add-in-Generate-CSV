@@ -1,4 +1,4 @@
-# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>适用于 Excel 2016 的 CSV 生成器任务窗格外接程序示例
+﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>适用于 Excel 2016 的 CSV 生成器任务窗格外接程序示例
 
 _适用于：Excel 2016_
 
@@ -32,7 +32,7 @@ _适用于：Excel 2016_
 
     a.在 Excel 2016 的“**插入**”选项卡中，选择“**我的外接程序**”。
 
-    b.在“**Office 外接程序**”对话框中，选择“**共享文件夹**”。
+    b.在“Office 加载项”****对话框中，选择“共享文件夹”****。
 
     c.依次选择“**教师 CSV 班级名单示例**”>“**插入**”。此时，外接程序在任务窗格中打开，并在活动工作表中创建 CSV 班级名单，如以下屏幕截图所示。
 
@@ -69,4 +69,7 @@ _适用于：Excel 2016_
 2.  [适用于 Excel 的代码段资源管理器](http://officesnippetexplorer.azurewebsites.net/#/snippets/excel)
 3.  [Excel 外接程序代码示例](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-code-samples.md)
 4.  [Excel 外接程序 JavaScript API 参考](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-javascript-reference.md)
-5.  [生成你的第一个 Excel 外接程序](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+5.  [生成首个 Excel 加载项](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+
+
+此项目已采用 [Microsoft 开放源代码行为准则](https://opensource.microsoft.com/codeofconduct/)。有关详细信息，请参阅[行为准则 FAQ](https://opensource.microsoft.com/codeofconduct/faq/)。如有其他任何问题或意见，也可联系 [opencode@microsoft.com](mailto:opencode@microsoft.com)。

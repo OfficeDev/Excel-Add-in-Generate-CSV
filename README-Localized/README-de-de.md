@@ -1,4 +1,4 @@
-# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Aufgabenbereich-Add-In-Beispiel „CSV-Generator“ für Excel 2016
+﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Aufgabenbereich-Add-In-Beispiel „CSV-Generator“ für Excel 2016
 
 _Gilt für: Excel 2016_
 
@@ -70,3 +70,6 @@ Die Excel-JavaScript-APIs haben viel mehr bei der Entwicklung von Add-Ins zu bie
 3.  [Codebeispiele zu Excel-Add-Ins](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-code-samples.md)
 4.  [JavaScript-API-Referenz zu Excel-Add-Ins](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-javascript-reference.md)
 5.  [Erstellen Ihres ersten Excel-Add-Ins](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+
+
+In diesem Projekt wurden die [Microsoft Open Source-Verhaltensregeln](https://opensource.microsoft.com/codeofconduct/) übernommen. Weitere Informationen finden Sie unter [Häufig gestellte Fragen zu Verhaltensregeln](https://opensource.microsoft.com/codeofconduct/faq/), oder richten Sie Ihre Fragen oder Kommentare an [opencode@microsoft.com](mailto:opencode@microsoft.com).

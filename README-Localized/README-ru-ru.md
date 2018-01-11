@@ -1,4 +1,4 @@
-# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Пример надстройки области задач для Excel 2016, создающей CSV-таблицы
+﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Пример надстройки области задач для Excel 2016, создающей CSV-таблицы
 
 _Область применения: Excel 2016_
 
@@ -70,3 +70,6 @@ _Область применения: Excel 2016_
 3.  [Примеры кода надстроек Excel](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-code-samples.md)
 4.  [Справочник по API JavaScript для надстроек Excel](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-javascript-reference.md)
 5.  [Создание первой надстройки Excel](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+
+
+Этот проект соответствует [правилам поведения Майкрософт, касающимся обращения с открытым кодом](https://opensource.microsoft.com/codeofconduct/). Дополнительную информацию см. в разделе [часто задаваемых вопросов по правилам поведения](https://opensource.microsoft.com/codeofconduct/faq/). Если у вас возникли вопросы или замечания, напишите нам по адресу [opencode@microsoft.com](mailto:opencode@microsoft.com).

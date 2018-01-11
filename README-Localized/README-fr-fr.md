@@ -1,4 +1,4 @@
-# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Exemple de complément de volet Office - Générateur de fichier CSV pour Excel 2016
+﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Exemple de complément de volet Office - Générateur de fichier CSV pour Excel 2016
 
 _S’applique à : Excel 2016_
 
@@ -70,3 +70,6 @@ Les API JavaScript pour Excel peuvent vous offrir beaucoup pour l’élaboration
 3.  [Exemples de code pour les compléments Excel](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-code-samples.md)
 4.  [Référence de l’API JavaScript pour les compléments Excel](https://github.com/OfficeDev/office-js-docs/blob/master/excel/excel-add-ins-javascript-reference.md)
 5.  [Création de votre premier complément Excel](https://github.com/OfficeDev/office-js-docs/blob/master/excel/build-your-first-excel-add-in.md)
+
+
+Ce projet a adopté le [code de conduite Open Source de Microsoft](https://opensource.microsoft.com/codeofconduct/). Pour plus d’informations, reportez-vous à la [FAQ relative au code de conduite](https://opensource.microsoft.com/codeofconduct/faq/) ou contactez [opencode@microsoft.com](mailto:opencode@microsoft.com) pour toute question ou tout commentaire.
