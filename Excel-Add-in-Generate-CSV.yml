@@ -1,0 +1,19 @@
+### YamlMime:Sample
+sample:
+- name: Excel-Add-in-Generate-CSV
+  path: ''
+  description: 'This task pane add-in shows how to create a table from a list of column names by using the JavaScript APIs in Excel 2016. It comes in two flavors: code editor and Visual Studio.'
+  readme: ''
+  generateZip: FALSE
+  isLive: TRUE
+  technologies:
+  - Office Add-in
+  azureDeploy: ''
+  author: JohnAustin-MSFT
+  platforms: []
+  languages:
+  - JavaScript
+  extensions:
+    products:
+    - Excel
+    scenarios: []
