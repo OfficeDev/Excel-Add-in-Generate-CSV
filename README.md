@@ -1,3 +1,16 @@
+---
+topic: sample
+products:
+- Excel
+- Office 365
+languages:
+- JavaScript
+extensions:
+  contentType: samples
+  technologies:
+  - Add-ins
+  createdDate: 10/15/2015 1:50:50 PM
+---
 # CSV generator Task Pane Add-in Sample for Excel 2016
 
 _Applies to: Excel 2016_
