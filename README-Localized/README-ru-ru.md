@@ -1,4 +1,17 @@
-﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Пример надстройки области задач для Excel 2016, создающей CSV-таблицы
+﻿---
+page_type: sample
+products:
+- office-excel
+- office-365
+languages:
+- javascript
+extensions:
+  contentType: samples
+  technologies:
+  - Add-ins
+  createdDate: 10/15/2015 1:50:50 PM
+---
+# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Пример надстройки области задач для Excel 2016, создающей CSV-таблицы
 
 _Область применения: Excel 2016_
 

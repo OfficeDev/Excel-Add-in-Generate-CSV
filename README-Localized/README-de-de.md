@@ -1,4 +1,17 @@
-﻿# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Aufgabenbereich-Add-In-Beispiel „CSV-Generator“ für Excel 2016
+﻿---
+page_type: sample
+products:
+- office-excel
+- office-365
+languages:
+- javascript
+extensions:
+  contentType: samples
+  technologies:
+  - Add-ins
+  createdDate: 10/15/2015 1:50:50 PM
+---
+# <a name="csv-generator-task-pane-add-in-sample-for-excel-2016"></a>Aufgabenbereich-Add-In-Beispiel „CSV-Generator“ für Excel 2016
 
 _Gilt für: Excel 2016_
 
