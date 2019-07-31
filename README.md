@@ -1,17 +1,6 @@
----
-page_type: sample
-products:
-- office-excel
-- office-365
-languages:
-- javascript
-extensions:
-  contentType: samples
-  technologies:
-  - Add-ins
-  createdDate: 10/15/2015 1:50:50 PM
----
-# CSV generator Task Pane Add-in Sample for Excel 2016
+# [ARCHIVED] CSV generator Task Pane Add-in Sample for Excel 2016
+
+**Note:** This repo is archived and no longer actively maintained. Security vulnerabilities may exist in the project, or its dependencies. If you plan to reuse or run any code from this repo, be sure to perform appropriate security checks on the code or dependencies first. Do not use this project as the starting point of a production Office Add-in. Always start your production code by using the Office/SharePoint development workload in Visual Studio, or the [Yeoman generator for Office Add-ins](https://github.com/OfficeDev/generator-office), and follow security best practices as you develop the add-in. 
 
 _Applies to: Excel 2016_
 
